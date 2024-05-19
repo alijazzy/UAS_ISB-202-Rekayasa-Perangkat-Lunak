@@ -19,8 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/bootstrap.css" />
-    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../admin/css/bootstrap.css" />
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -52,9 +51,9 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-50 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 large" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-warning" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -91,11 +90,11 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter">3</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
+                                <h6 class="dropdown-header border-0" style="background-color: #F3860B">
                                     Alerts Center
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -105,8 +104,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                        <div class="small text-gray-500">Januari 01, 2024</div>
+                                        <span class="font-weight-bold">It's a new year, the annual report is waiting for you</span>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -116,8 +115,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
+                                        <div class="small text-gray-500">Januari 20, 2024</div>
+                                        <span class="font-weight-bold">10 books have been returned by members</span>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -127,8 +126,8 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
+                                        <div class="small text-gray-500">Februari 20, 2024</div>
+                                        <span class="font-weight-bold">Some books have not been returned and are already 2 days past the borrowing period</span>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
@@ -140,11 +139,11 @@
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                <span class="badge badge-danger badge-counter">1</span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
+                                <h6 class="dropdown-header border-0" style="background-color: #F3860B">
                                     Message Center
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
@@ -152,43 +151,36 @@
                                         <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    <div>
+                                        <span class="font-weight-bold">Hi admin, I have a problem making payment</span>
+                                        <div class="small text-gray-500">Andre Al Fatih · 58m</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator"></div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                        <span class="text-gray-500">Hi admin, I'm having trouble finding books</span>
+                                        <div class="small text-gray-500">Syakira Ananda · 2h</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                                        <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                        <span class="text-gray-500">Hi admin, how to delete books in cart?</span>
+                                        <div class="small text-gray-500">Ahmad Bill · 6h</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                                        <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                        <span class="text-gray-500">Hi admin, how do I become a member at Pitimoss?</span>
+                                        <div class="small text-gray-500">Andre Al Fatih · 2d</div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
@@ -201,14 +193,18 @@
                         <?php if (isset($_SESSION['admin_logged_in'])) { ?>
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php if (isset($_SESSION['admin_name'])) { echo $_SESSION['admin_name']; } ?></span>
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php if (isset($_SESSION['admin_name'])) {
+                                                                                                    echo $_SESSION['admin_name'];
+                                                                                                } ?></span>
                                     <img class="img-profile rounded-circle" src="<?php echo '../img/blog/details/' . $_SESSION['admin_photo']; ?>">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        <?php if (isset($_SESSION['admin_email'])) { echo $_SESSION['admin_email']; } ?>
+                                        <?php if (isset($_SESSION['admin_email'])) {
+                                            echo $_SESSION['admin_email'];
+                                        } ?>
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
