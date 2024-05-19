@@ -75,7 +75,7 @@
                         <span class="info"><?php echo $genre?></span>
                     </li>
                 </ul>
-                <button type="submit"><i class="fa-regular fa-cart-shopping"></i>Add to cart</button>            
+                <button type="submit" class="btn-add-to-cart"><i class="fa-solid fa-cart-shopping"></i>Add to cart</button>            
             </div>
         </div>
     </section>
