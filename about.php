@@ -14,64 +14,52 @@ include('layouts/header.php');
                 <li class="breadcrumb-item active">About Us</li>
             </ol>
         </nav>
-        <!-- Page Heading End-->
-
-        <!-- Card About Strat-->
 
         <!-- Carousel Strat-->
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="img/blog/blog-6.jpg" class="d-block" width="100%" height="300px" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="img/blog/blog-7.jpg" class="d-block" width="100%" height="300px" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="img/blog/blog-8.jpg" class="d-block" width="100%" height="300px" alt="...">
-                </div>
+        <div class="jumbotron p-3 p-md-5 text-white rounded" style="background-image: url('img/about/about.JPG'); background-size: cover;">  
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 font-italic">Pitimoss Smart Library</h1>
+                <p class="lead my-3">With enormous set of books, explore the magical world of books</p>
             </div>
         </div>
         <!-- Carousel End-->
         <br>
         <br>
 
-        <!-- Card Fitur Strat-->
+        <!-- Card about Strat-->
         <div class="card mb-5 border-0">
-            <div class="card-group justify-content-md-center">
-                <div class="card mb-3 border-0" style="max-width: 300px;">
-                    <div class="card text-center border-0" style="width: auto;">
-                        <img src="img/product/Ronggeng Dukuh Paruk.jpg" class="img-fluid rounded-circle" style="width: 150px; height: 150px; align-self: center;">
-                        <div class="card-body">
-                            <h4 class="card-text">List Book</h4>
-                            <p class="card-text">Explore our book collection and discover a fascinating world of knowledge. Check out our book list now!</p>
-                            <a href="#" class="btn btn-primary">Go to lits Book</a>
+            <!-- Page fitur End-->
+            <div class="row mb-2 ">
+                <div class="col-md-6">
+                    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <strong class="d-inline-block mb-2 text-primary">collection</strong>
+                            <h3 class="mb-0">
+                                <a class="text-dark" href="books.php">List Book</a>
+                            </h3>
+                            <div class="mb-1 text-muted">Now</div>
+                            <p class="card-text mb-auto">Explore our book collection and discover a fascinating world of knowledge. Check out our book list now!</p>
+                            <a href="books.php">Go to list Book</a>
                         </div>
+                        <img class="card-img-right flex-auto d-none d-md-block" src="img/instagram/instagram-1.jpg" alt="Card image cap" style="width: 200px; height: 250px;">
                     </div>
                 </div>
-                <div class="card mb-3 border-0" style="max-width: 300px;">
-                    <div class="card text-center border-0" style="width: auto;">
-                        <img src="img/product/Putri Kedua.jpg" class="img-fluid rounded-circle" style="width: 150px; height: 150px; align-self: center;">
-                        <div class="card-body">
-                            <h4 class="card-title">Recommend Book</h4>
-                            <p class="card-text">Check out this week's recommended books! Explore captivating stories and expand your reading list. Don't miss out!</p>
-                            <a href="#" class="btn btn-primary">Go to Recomend Book</a>
+                <div class="col-md-6">
+                    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <strong class="d-inline-block mb-2 text-success">recommended</strong>
+                            <h3 class="mb-0">
+                                <a class="text-dark" href="#">Recomend Book</a>
+                            </h3>
+                            <div class="mb-1 text-muted">Now</div>
+                            <p class="card-text mb-auto">Check out this week's recommended books! Explore captivating stories and expand your reading list. Don't miss out!</p>
+                            <a href="index.php">Go to Recomendation</a>
                         </div>
-                    </div>
-                </div>
-                <div class="card mb-3 border-0" style="max-width: 300px;">
-                    <div class="card text-center border-0" style="width: auto;">
-                        <img src="img/book2.PNG" class="img-fluid rounded-circle" style="width: 150px; height: 150px; align-self: center;">
-                        <div class="card-body">
-                            <h4 class="card-title">Check Out</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go to Check Out</a>
-                        </div>
+                        <img class="card-img-right flex-auto d-none d-md-block" src="img/instagram/instagram-3.jpg" alt="Card image cap" style="width: 200px; height: 250px;" </div>
                     </div>
                 </div>
             </div>
-            <!-- Card Fitur End-->
-
+            <!-- Card Profile Strat-->
             <div class="card-body">
                 <hr>
                 <div class="row p-5">
@@ -93,7 +81,7 @@ include('layouts/header.php');
                 <hr>
                 <div class="row p-5">
                     <div class="col-md-5">
-                        <img src="img/book1.PNG" width="500" height="500">
+                        <img src="img/about/sewa_buku.jpeg" width="500" height="500">
                     </div>
                     <div class="col-md-7 align-self-center">
                         <h2>THE PIONEERS</h2>
@@ -112,22 +100,23 @@ include('layouts/header.php');
                         <h4 class="text-secondary">"Where Books Come Alive, and Readers Find Home."</h4>
                         <br>
                         <p class="text-secondary">
-                        PITIMOSS is not just a reading park; it is an entertaining and comfortable haven with friendly and family-like service, 
-                        making it a second home for book lovers. We constantly innovate in every aspect to ensure that PITIMOSS remains an integral part of the 
-                        lives of book enthusiasts. Step into PITIMOSS and embark on a captivating literary journey where imagination knows no bounds. 
-                        Let the pages come alive and the stories transport you to new worlds. Experience the joy of reading in a vibrant and welcoming atmosphere. 
-                        Join us at PITIMOSS and let your love for books thrive in a place that feels like home.
+                            PITIMOSS is not just a reading park; it is an entertaining and comfortable haven with friendly and family-like service,
+                            making it a second home for book lovers. We constantly innovate in every aspect to ensure that PITIMOSS remains an integral part of the
+                            lives of book enthusiasts. Step into PITIMOSS and embark on a captivating literary journey where imagination knows no bounds.
+                            Let the pages come alive and the stories transport you to new worlds. Experience the joy of reading in a vibrant and welcoming atmosphere.
+                            Join us at PITIMOSS and let your love for books thrive in a place that feels like home.
                     </div>
                     <div class="col-md-5">
-                        <img src="img/about/pitimoss-fun-library.jpg" width="500" height="500">
+                        <img src="img/about/ruang_pajang.jpg" width="500" height="500">
                     </div>
                 </div>
             </div>
+            <!-- Card Profile End-->
         </div>
         <!-- Card About End-->
 
 
-    </div>
+
 </body>
 <?php
 include('layouts/footer.php');
