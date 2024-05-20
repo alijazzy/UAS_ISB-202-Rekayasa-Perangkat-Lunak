@@ -44,7 +44,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Books Management</h6>
                 <a class="collapse-item" href="products.php">Book List</a>
-                <a class="collapse-item" href="create_product.php">Create Book Data</a>
+                <a class="collapse-item" href="create_book.php">Create Book Data</a>
             </div>
         </div>
     </li>

@@ -9,11 +9,11 @@ if (!isset($_SESSION['admin_logged_in'])) {
 <?php include('layouts/header.php'); ?>
 
 <?php
-    $query_products = "SELECT * FROM buku";
+$query_products = "SELECT * FROM buku";
 
-    $stmt_products = $conn->prepare($query_products);
-    $stmt_products->execute();
-    $books = $stmt_products->get_result();
+$stmt_products = $conn->prepare($query_products);
+$stmt_products->execute();
+$books = $stmt_products->get_result();
 
 ?>
 
@@ -121,13 +121,12 @@ if (!isset($_SESSION['admin_logged_in'])) {
                                 <td><?php echo $buku['Tahun_Terbit']; ?></td>
                                 <td><?php echo $buku['Harga_Buku']; ?></td>
                                 <td class="text-center">
-                                    <a href="<?php echo 'edit_image.php?product_id=' . $product['product_id'] . '&product_name=' . $product['product_name']; ?>" class="btn btn-warning btn-circle">
-                                        <i class="fas fa-images"></i>
-                                    </a>
-                                    <a href="edit_product.php?product_id=<?php echo $product['product_id']; ?>" class="btn btn-info btn-circle">
+
+                                    <a href="edit_book.php?book_id=<?php echo $buku['ID_Buku']; ?>" class="btn btn-info btn-circle">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="delete_product.php?product_id=<?php echo $product['product_id']; ?>" class="btn btn-danger btn-circle">
+
+                                    <a href="delete_book.php?book_id=<?php echo $buku['ID_Buku']; ?>" class="btn btn-danger btn-circle">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
