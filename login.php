@@ -99,10 +99,7 @@ if (isset($_POST['login_btn'])) {
                             <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <div class="custom-control custom-checkbox small">
-                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                <label class="custom-control-label" for="customCheck">Remember Me</label>
-                            </div>
+                            <p>Haven't got an account yet? <a href="register.php">Register here</a></p>
                         </div>
                         <input type="submit" class="btn btn btn-block" name="login_btn" value="Login" style="background-color: #F3860B; color:white" />
                     </div>
@@ -121,7 +118,6 @@ if (isset($_POST['login_btn'])) {
     <script src="admin/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="admin/js/sb-admin-2.min.js"></script>
-
 </body>
 
 </html>
