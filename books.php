@@ -19,31 +19,26 @@
 
     if (isset($_POST['cari'])) {
         $keyword = ucfirst(strtolower($_POST['keyword']));
-        if(!empty($_POST['kategori'])){
+        if (!empty($_POST['kategori'])) {
+            //Get products by category
             $category = $_POST['kategori'];
             $query = "SELECT * FROM buku WHERE kategori_buku = '$category' AND (Judul_Buku LIKE '%$keyword%' OR Pengarang LIKE '%$keyword%')";
-            $bookResult = $conn->query($query);
-            $books = [];
-            while ($row = $bookResult->fetch_assoc()) {
-                $books[] = $row;
-            }
-        } else{
+        } else if (!empty($_POST['keyword'])) {
             //Get products by search
             $query = "SELECT * FROM buku WHERE Judul_Buku LIKE '%$keyword%' OR Pengarang LIKE '%$keyword%'";
-            $bookResult = $conn->query($query);
-            $books = [];
-            while ($row = $bookResult->fetch_assoc()) {
-                $books[] = $row;
-            }
+        } else {
+            //Get all products
+            $query = "SELECT * FROM buku LIMIT $booksPerPage OFFSET $offset";
         }
     } else {
         //Get all products
         $query = "SELECT * FROM buku LIMIT $booksPerPage OFFSET $offset";
-        $bookResult = $conn->query($query);
-        $books = [];
-        while ($row = $bookResult->fetch_assoc()) {
-            $books[] = $row;
-        }
+    }
+
+    $bookResult = $conn->query($query);
+    $books = [];
+    while ($row = $bookResult->fetch_assoc()) {
+        $books[] = $row;
     }
 
     // Mengambil kategori buku pada database
@@ -81,7 +76,7 @@
         <div class="input-field first-wrap">
             <div class="input-select flex">
             <select class="choices-single-default" name="kategori">
-                <option placeholder="">Category</option>
+                <option placeholder="" value="">Category</option>
                 <?php foreach ($categories as $category) : ?>
                 <option><?php echo $category?></option>
                 <?php endforeach; ?>
