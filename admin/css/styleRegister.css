@@ -1,0 +1,38 @@
+.rightside, .leftside {
+    height: 100vh;
+    width: 100%;
+}
+
+.leftside {
+    background-image: url('../../img/loginbg.png');
+    background-size: cover;
+    background-position: center;
+}
+
+form button {
+    width: 110px;
+    height: 35px;
+    margin: 15px 10px 0 10px;
+    background-color:  #F3860B;
+    border-radius: 30px;
+    border: 0;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-outer form {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 330px;
+    border-radius: 5px;
+    text-align: left;
+    padding: 0px 35px 100px 10px;
+}
+
+.slide-page {
+    transition: margin-left 0.5s ease;
+}
