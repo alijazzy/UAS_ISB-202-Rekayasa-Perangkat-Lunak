@@ -134,7 +134,7 @@ include('layouts/header.php');
                             <?php if ($is_logged_in): ?>
                             <button type="submit" class="btn btn-outline-info btn-sm" name="sewa">Rent Now</button>
                             <?php else: ?>
-                            <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#loginModal">Rent Now</button>
+                            <button type="button" class="btn btn-outline btn-sm" data-toggle="modal" data-target="#loginModal" style="background-color:#F3860B;color:white">Rent Now</button>
                             <?php endif; ?>
                         </form>
                     </div>
