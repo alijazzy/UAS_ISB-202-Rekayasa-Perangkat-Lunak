@@ -1,10 +1,11 @@
-.leftside, .rightside {
-    height: 100vh; /* Full height of the viewport */
-    width: 100%; /* Full width of the column */
+.leftside,
+.rightside {
+  height: 100vh; /* Full height of the viewport */
+  width: 100%; /* Full width of the column */
 }
 
 .rightside {
-    background-image: url('../../img/loginbg.png'); /* Make sure the path is correct */
-    background-size: cover; /* Cover the entire div */
-    background-position: center; /* Center the background image */
+  background-image: url("../../img/loginbg.png"); /* Make sure the path is correct */
+  background-size: cover; /* Cover the entire div */
+  background-position: center; /* Center the background image */
 }

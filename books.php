@@ -7,19 +7,19 @@
 
     $booksPerPage = 12;
 
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-    $offset = ($page - 1) * $booksPerPage;
+$offset = ($page - 1) * $booksPerPage;
 
-    $totalBooksQuery = "SELECT COUNT(*) as total FROM buku";
-    $totalBooksResult = $conn->query($totalBooksQuery);
-    $totalBooksRow = $totalBooksResult->fetch_assoc();
-    $totalBooks = $totalBooksRow['total'];
+$totalBooksQuery = "SELECT COUNT(*) as total FROM buku";
+$totalBooksResult = $conn->query($totalBooksQuery);
+$totalBooksRow = $totalBooksResult->fetch_assoc();
+$totalBooks = $totalBooksRow['total'];
 
-    $totalPages = ceil($totalBooks / $booksPerPage);
+$totalPages = ceil($totalBooks / $booksPerPage);
 
-    $start = $offset + 1;
-    $end = min(($offset + $booksPerPage), $totalBooks);
+$start = $offset + 1;
+$end = min(($offset + $booksPerPage), $totalBooks);
 
     $query = "SELECT * FROM buku";
     
@@ -51,23 +51,35 @@
         $books[] = $row;
     }
 
-    // Mengambil kategori buku pada database
-    $query_books = "SELECT DISTINCT Kategori_Buku FROM buku";
+// Mengambil kategori buku pada database
+$query_books = "SELECT DISTINCT Kategori_Buku FROM buku";
 
-    $stmt_books = $conn->prepare($query_books);
-    $stmt_books->execute();
-    $book_categ = $stmt_books->get_result();
+$stmt_books = $conn->prepare($query_books);
+$stmt_books->execute();
+$book_categ = $stmt_books->get_result();
 
-    $categories = [];
-    while ($row = $book_categ->fetch_assoc()) {
-        $categories[] = $row['Kategori_Buku'];
-    }
+$categories = [];
+while ($row = $book_categ->fetch_assoc()) {
+    $categories[] = $row['Kategori_Buku'];
+}
 ?>
 
 
 <?php
 include('layouts/header.php');
+include('layouts/header.php');
 ?>
+<!-- Breadcrumb Section Begin -->
+<nav class="mt-4 rounded" aria-label="breadcrumb">
+    <ol class="breadcrumb container px-3 py-2 rounded mb-4">
+        <div class="breadcrumb_item">
+            <a href="index.php">Home</a>
+            <a>></a>
+            <span>Books</span>
+        </div>
+    </ol>
+</nav>
+<!-- Breadcrumb Section End -->
 <!-- Breadcrumb Section Begin -->
 <nav class="mt-4 rounded" aria-label="breadcrumb">
     <ol class="breadcrumb container px-3 py-2 rounded mb-4">
@@ -106,7 +118,11 @@ include('layouts/header.php');
     </form>
 </div>
 <!-- Search Bar End -->
+</div>
+<!-- Search Bar End -->
 
+<!-- Display Book Begin -->
+<div class="container mb-5">
 <!-- Display Book Begin -->
 <div class="container mb-5">
     <div class="row">
@@ -196,6 +212,7 @@ include('layouts/header.php');
 </div>
 
 <?php
+include('layouts/footer.php');
 include('layouts/footer.php');
 ?>
 

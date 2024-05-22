@@ -167,8 +167,8 @@ include('layouts/header.php');
                         </div>
 
                         <h4 class="order__title"></h4>
-                        <a href="#orders" class="btn btn-primary">YOUR ORDERS</a>
-                        <a href="account.php?logout=1" id="logout-btn" class="btn btn-danger">LOG OUT</a>
+                        <a href="#orders" class="btn btn-primary">YOUR RENT</a>
+                        <a href="index.php?logout=1" id="logout-btn" class="btn btn-danger">LOG OUT</a>
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@ include('layouts/header.php');
                             echo $_GET['payment_message'];
                         } ?>
                     </div>
-                    <h2>Your Orders History</h2>
+                    <h2>Your Rent History</h2>
                     <span>***</span>
                 </div>
                 <div class="shopping__cart__table">
@@ -200,11 +200,33 @@ include('layouts/header.php');
                                 <th>Book ID</th>
                                 <th>Start Date</th>
                                 <th>Return Date</th>
+                                <th>Denda</th>
                                 <th>Extend</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($user_orders as $order) { ?>
+                            <?php foreach ($user_orders as $order) {
+                                $current_date = date("Y-m-d");
+                                $return_date = $order['Tanggal_Kembali'];
+                                $penalty = 0;
+                                $late_days = 0;
+
+                                if ($current_date > $return_date) {
+                                    // Fetch penalty price per day from database
+                                    $book_id = $order['ID_Buku'];
+                                    $query_penalty = "SELECT harga_denda FROM denda WHERE ID_Buku = ?";
+                                    $stmt_penalty = $conn->prepare($query_penalty);
+                                    $stmt_penalty->bind_param('i', $book_id);
+                                    $stmt_penalty->execute();
+                                    $result_penalty = $stmt_penalty->get_result();
+                                    $data_penalty = $result_penalty->fetch_assoc();
+
+                                    $penalty_per_day = $data_penalty['harga_denda'];
+                                    $late_days = (strtotime($current_date) - strtotime($return_date)) / (60 * 60 * 24);
+                                    $penalty = ceil($late_days) * $penalty_per_day;
+                                }
+                            ?>
+
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__text">
@@ -231,13 +253,19 @@ include('layouts/header.php');
                                             <h5><?php echo $order['Tanggal_Kembali']; ?></h5>
                                         </div>
                                     </td>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__text">
+                                            <h5><?php echo $penalty > 0 ? 'Rp' . number_format($penalty, 2, ',', '.') : 'No Penalty'; ?></h5>
+                                        </div>
+                                    </td>
                                     <td class="cart__price">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#extendModal" data-order-id="<?php echo $order['ID_Sewa']; ?>" data-return-date="<?php echo $order['Tanggal_Kembali']; ?>" data-book-id="<?php echo $order['ID_Buku']; ?>">
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#extendModal" data-order-id="<?php echo $order['ID_Sewa']; ?>" data-return-date="<?php echo $order['Tanggal_Kembali']; ?>" data-book-id="<?php echo $order['ID_Buku']; ?>" data-penalty="<?php echo $penalty; ?>" data-late-days="<?php echo $late_days; ?>">
                                             Extend
                                         </button>
                                     </td>
                                 </tr>
                             <?php } ?>
+
                         </tbody>
                     </table>
                 </div>
@@ -269,6 +297,16 @@ include('layouts/header.php');
                         <label for="additional_price" class="col-form-label">Additional Price:</label>
                         <input type="text" class="form-control" id="additional_price" name="additional_price" readonly>
                     </div>
+                    <div class="form-group">
+                        <label for="penalty" class="col-form-label">Penalty:</label>
+                        <input type="text" class="form-control" id="penalty" name="penalty" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="total_price" class="col-form-label">Total Price:</label>
+                            <input type="text" class="form-control" id="total_price" name="total_price" readonly value="<?php echo $total_price_display; ?>">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -279,6 +317,8 @@ include('layouts/header.php');
     </div>
 </div>
 <!-- Extend Modal End -->
+
+
 
 
 <!-- Bootstrap core JavaScript-->
@@ -297,45 +337,83 @@ include('layouts/header.php');
         var orderId = button.data('order-id');
         var returnDate = button.data('return-date');
         var bookId = button.data('book-id');
+        var penalty = button.data('penalty');
+        var lateDays = button.data('late-days'); // Get late days
 
         var modal = $(this);
         modal.find('.modal-body #order_id').val(orderId);
         modal.find('.modal-body #book_id').val(bookId);
+        modal.find('.modal-body #penalty').val(penalty);
         modal.find('.modal-body #new_return_date').val(returnDate);
-        modal.find('.modal-body #additional_price').val('');
+        modal.find('.modal-body #additional_price').val(''); // Reset harga tambahan
+        modal.find('.modal-body #total_price').val(''); // Reset total price
 
-        var rentalPricePerDay = 0;
-
+        // Fetch book price from server
         $.ajax({
-            url: 'get_book_price.php',
+            url: 'get_book_price_and_penalty.php',
             method: 'GET',
             data: {
                 book_id: bookId
             },
             success: function(response) {
                 var data = JSON.parse(response);
-                rentalPricePerDay = data.harga_buku;
+                var rentalPricePerDay = data.harga_buku;
 
+                // Add event listener for date change
                 modal.find('.modal-body #new_return_date').on('change', function() {
                     var newReturnDate = new Date($(this).val());
                     var currentReturnDate = new Date(returnDate);
 
+                    var additionalPrice = 0;
+                    var totalPenalty = penalty;
+
                     if (newReturnDate > currentReturnDate) {
                         var diffTime = Math.abs(newReturnDate - currentReturnDate);
                         var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        var additionalPrice = diffDays * rentalPricePerDay;
+
+                        // Check if the new return date is at least lateDays from the original return date
+                        if (diffDays < lateDays) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid Extension Period',
+                                text: 'You must extend the rental period for at least ' + lateDays + ' days.',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                modal.find('.modal-body #new_return_date').val(''); // Reset the date input
+                            });
+                            return;
+                        }
+
+                        additionalPrice = diffDays * rentalPricePerDay;
+
+                        // Calculate total price including penalty
+                        var totalPrice = additionalPrice + totalPenalty;
+
                         modal.find('.modal-body #additional_price').val(additionalPrice);
+                        modal.find('.modal-body #total_price').val(totalPrice);
                     } else {
                         modal.find('.modal-body #additional_price').val(0);
+                        modal.find('.modal-body #total_price').val(totalPenalty);
                     }
                 });
+
+                // Trigger change event to calculate the initial price
+                modal.find('.modal-body #new_return_date').trigger('change');
             },
             error: function() {
-                alert('Failed to fetch book price.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Fetch Error',
+                    text: 'Failed to fetch book price.',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     });
 </script>
+
+
+
 
 
 <?php
