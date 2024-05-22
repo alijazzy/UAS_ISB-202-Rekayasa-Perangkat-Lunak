@@ -10,14 +10,14 @@
         <div class="content">
             <h3>Welcome To<br><span>Pitimoss Smart Library</span></h3>
             <p>With enormous set of books, explore the magical world of books</p>
-            <a href="#"><button class="btn btn" style="background-color: #F3860B; color:white">Rent now</button></a>
+            <a href="books.php"><button class="btn btn" style="background-color: #F3860B; color:white">Rent now</button></a>
         </div>
         <div class="swiper books-slider">
             <div class="swiper-wrapper">
                 <a href="book-details.php?id_buku=B05" class="swiper-slide"><img src="/img/product/Laskar Pelangi.jpg" alt=""></a>
                 <a href="book-details.php?id_buku=B04" class="swiper-slide"><img src="/img/product/Dune.jpg" alt=""></a>
                 <a href="book-details.php?id_buku=B07" class="swiper-slide"><img src="/img/product/bumi manusia.jpg" alt=""></a>
-                <a href="#" class="swiper-slide"><img src="/img/product/Metamorfosis.jpg" alt=""></a>
+                <a href="book-details.php?id_buku=B03" class="swiper-slide"><img src="/img/product/Metamorfosis.jpg" alt=""></a>
                 <a href="book-details.php?id_buku=B02" class="swiper-slide"><img src="/img/product/Haji Murad.jpg" alt=""></a>
             </div>
         </div>
@@ -84,7 +84,7 @@
                     <h2 class="text-truncate"><?php echo $row['Judul_Buku']?></h2>
                     <p class="writer"><?php echo $row['Pengarang']?></p>
                     <p class="kategori"><?php echo $row['Kategori_Buku']?></p>
-                    <p class="book_price"><?php echo $row['Harga_Buku']?></p>
+                    <p class="book_price"><?php echo "Rp. " . number_format($row['Harga_Buku']);?></p>
                     <a href="<?php echo "book-details.php?id_buku=" . $row['ID_Buku']; ?>"><button class="btn btn" style="background-color: #F3860B; color:white">Details</button></a>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     <h2><?php echo $row['Judul_Buku']?></h2>
                     <p class="writer"><?php echo $row['Pengarang']?></p>
                     <p class="kategori"><?php echo $row['Kategori_Buku']?></p>
-                    <p class="book_price"><?php echo $row['Harga_Buku']?></p>
+                    <p class="book_price"><?php echo "Rp. " . number_format($row['Harga_Buku']);?></p>
                     <a href="<?php echo "book-details.php?id_buku=" . $row['ID_Buku']; ?>"><button class="btn btn" style="background-color: #F3860B; color:white">Details</button></a>
                 </div>
             </div>
@@ -115,96 +115,6 @@
         </div>
     </div>
     <!-- Comics Featured End -->
-
-    <!-- Banner Section Begin -->
-    <!-- <section class="banner spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 offset-lg-4">
-                    <div class="banner__item">
-                        <div class="banner__item__pic">
-                            <img src="img/banner/banner-1.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Clothing Collections 2030</h2>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="banner__item banner__item--middle">
-                        <div class="banner__item__pic">
-                            <img src="img/banner/banner-2.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Accessories</h2>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="banner__item banner__item--last">
-                        <div class="banner__item__pic">
-                            <img src="img/banner/banner-3.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Shoes Spring 2030</h2>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- Banner Section End -->
-
-    <!-- Categories Section Begin -->
-    <!-- <section class="categories spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="categories__text">
-                        <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="categories__hot__deal">
-                        <img src="img/product-sale.png" alt="">
-                        <div class="hot__deal__sticker">
-                            <span>Sale Of</span>
-                            <h5>$29.99</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 offset-lg-1">
-                    <div class="categories__deal__countdown">
-                        <span>Deal Of The Week</span>
-                        <h2>Multi-pocket Chest Bag Black</h2>
-                        <div class="categories__deal__countdown__timer" id="countdown">
-                            <div class="cd-item">
-                                <span>3</span>
-                                <p>Days</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>1</span>
-                                <p>Hours</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>50</span>
-                                <p>Minutes</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>18</span>
-                                <p>Seconds</p>
-                            </div>
-                        </div>
-                        <a href="#" class="primary-btn">Shop now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- Categories Section End -->
 
     <!-- Instagram Section Begin -->
     <section class="instagram spad">
@@ -231,53 +141,6 @@
         </div>
     </section>
     <!-- Instagram Section End -->
-
-    <!-- Latest Blog Section Begin -->
-    <!-- <section class="latest spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <span>Latest News</span>
-                        <h2>Fashion New Trends</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 16 February 2020</span>
-                            <h5>What Curling Irons Are The Best Ones</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 21 February 2020</span>
-                            <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-3.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 28 February 2020</span>
-                            <h5>The Health Benefits Of Sunglasses</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- Latest Blog Section End -->
 
 <?php 
     include ('layouts/footer.php'); 

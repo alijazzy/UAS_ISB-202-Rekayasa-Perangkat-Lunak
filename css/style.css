@@ -1458,6 +1458,10 @@ color: #999;
 	margin-bottom: 0;
 }
 
+.about_story{
+	text-align: justify;
+}
+
 /*---------------------
   Testimonial
 -----------------------*/

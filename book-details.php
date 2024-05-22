@@ -54,7 +54,7 @@
                  <p style="color: #F3860B">Category <span style="color: black"><?php echo $jenis?></span></p>
 
                  <div class="details__price flex">
-                    <span class="new__price">Rp. <?php echo $harga?></span>
+                    <span class="new__price"><?php echo "Rp. " . number_format($harga);?></span>
                  </div>
 
                 <p class="short__description">
