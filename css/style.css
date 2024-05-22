@@ -2598,6 +2598,40 @@ color: #999;
 }
 
 /*---------------------
+  Instagram
+-----------------------*/
+
+.instagram {
+	padding-bottom: 100px;
+}
+
+.instagram__pic__item {
+	width: 33.33%;
+	float: left;
+	height: 261px;
+	background-position: center center;
+}
+
+.instagram__text {
+	padding-top: 130px;
+}
+
+.instagram__text h2 {
+	color: #111111;
+	font-weight: 700;
+	margin-bottom: 30px;
+}
+
+.instagram__text p {
+	margin-bottom: 65px;
+}
+
+.instagram__text h3 {
+	color: #F3860B;
+	font-weight: 700;
+}
+
+/*---------------------
   Contact
 -----------------------*/
 
@@ -3640,6 +3674,7 @@ section nav .social_icon a{
 	height: 200%;
 	display: flex;
 	align-items: center;
+	justify-content: center;
   }
   
   .s003 form .inner-form .input-field.first-wrap .input-select select.choices-single-default {

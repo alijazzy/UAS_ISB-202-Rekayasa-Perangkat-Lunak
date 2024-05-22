@@ -1,11 +1,4 @@
-<?php
-    $kurs_dollar = 15502;
 
-    function setRupiah($price){
-        $result = "Rp".number_format($price,0,',','.');
-        return $result;
-    }
-?>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -30,33 +23,37 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
+
 </head>
 
 <body>
     <section class="header">
-    <nav>
+        <nav>
 
-    <div class="logo">
-        <img src="../img/pitimosLogo.png" class="object-fit">
-    </div>
+            <div class="logo">
+                <img src="../img/pitimosLogo.png" class="object-fit">
+            </div>
 
-    <ul>
-        <li><a href="../index.php">Home</a></li>
-        <li><a href="../about.php">About Us</a></li>
-        <li><a href="#Featured">Featured</a></li>
-        <li><a href="../books.php">Books</a></li>
-    </ul>
+            <ul>
+                <li><a href="../index.php">Home</a></li>
+                <li><a href="../about.php">About Us</a></li>
+                <li><a href="#Featured">Featured</a></li>
+                <li><a href="../books.php">Books</a></li>
+            </ul>
 
-    <div class="social_icon">
-        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-        <a href="../account.php"><img src="img/icon/user.png" alt=""></a>
-        <a href="../shopping-cart.php"><img src="img/icon/cart.png" alt=""></a>
-    </div>
+            <div class="social_icon">
+                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                <a href="../account.php"><img src="img/icon/user.png" alt=""></a>
+                <a href="../shopping-cart.php"><img src="img/icon/cart.png" alt=""></a>
+            </div>
 
-    </nav>
+        </nav>
     </section>
-</header>
+    </header>

@@ -85,7 +85,7 @@
                     <p class="writer"><?php echo $row['Pengarang']?></p>
                     <p class="kategori"><?php echo $row['Kategori_Buku']?></p>
                     <p class="book_price"><?php echo $row['Harga_Buku']?></p>
-                    <a href="<?php echo "book-details.php?id_buku=" . $row['ID_Buku']; ?>"><button class="btn btn" style="background-color: #F3860B; color:white">Learn More</button></a>
+                    <a href="<?php echo "book-details.php?id_buku=" . $row['ID_Buku']; ?>"><button class="btn btn" style="background-color: #F3860B; color:white">Details</button></a>
                 </div>
             </div>
             <?php } ?>
@@ -108,7 +108,7 @@
                     <p class="writer"><?php echo $row['Pengarang']?></p>
                     <p class="kategori"><?php echo $row['Kategori_Buku']?></p>
                     <p class="book_price"><?php echo $row['Harga_Buku']?></p>
-                    <a href="<?php echo "book-details.php?id_buku=" . $row['ID_Buku']; ?>"><button class="btn btn" style="background-color: #F3860B; color:white">Learn More</button></a>
+                    <a href="<?php echo "book-details.php?id_buku=" . $row['ID_Buku']; ?>"><button class="btn btn" style="background-color: #F3860B; color:white">Details</button></a>
                 </div>
             </div>
             <?php } ?>

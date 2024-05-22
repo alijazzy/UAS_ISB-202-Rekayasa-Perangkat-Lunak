@@ -126,7 +126,7 @@ $books = $stmt_products->get_result();
                                         <i class="fas fa-edit"></i>
                                     </a>
 
-                                    <a href="delete_book.php?book_id=<?php echo $buku['ID_Buku']; ?>" class="btn btn-danger btn-circle">
+                                    <a href="#" class="btn btn-danger btn-circle delete-book" data-id="<?php echo $buku['ID_Buku']; ?>">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -138,5 +138,32 @@ $books = $stmt_products->get_result();
         </div>
     </div>
 </div>
+
+<script>
+    // Select all delete-book buttons
+    document.querySelectorAll('.delete-book').forEach(item => {
+        item.addEventListener('click', event => {
+            event.preventDefault();
+            const bookId = item.getAttribute('data-id');
+
+            // Show SweetAlert2 confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to delete_book.php with book_id
+                    window.location.href = `delete_book.php?book_id=${bookId}`;
+                }
+            });
+        });
+    });
+</script>
+
 <!-- End of Main Content -->
 <?php include('layouts/footer.php'); ?>
