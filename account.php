@@ -377,7 +377,7 @@ include('layouts/header.php');
                                 icon: 'error',
                                 title: 'Invalid Outstanding Rental Fees',
                                 text: 'You have outstanding rental fees for the previous ' + lateDays + ' days. Please pay the fees before extending the rental period.',
-                                confirmButtonText: 'OK'
+                                confirmButtonTesxt: 'OK'
                             }).then(() => {
                                 modal.find('.modal-body #new_return_date').val(''); // Reset the date input
                             });
