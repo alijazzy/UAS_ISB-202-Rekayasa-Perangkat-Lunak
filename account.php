@@ -375,8 +375,8 @@ include('layouts/header.php');
                         if (diffDays < lateDays) {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Invalid Extension Period',
-                                text: 'You must extend the rental period for at least ' + lateDays + ' days.',
+                                title: 'Invalid Outstanding Rental Fees',
+                                text: 'You have outstanding rental fees for the previous ' + lateDays + ' days. Please pay the fees before extending the rental period.',
                                 confirmButtonText: 'OK'
                             }).then(() => {
                                 modal.find('.modal-body #new_return_date').val(''); // Reset the date input
@@ -411,7 +411,6 @@ include('layouts/header.php');
         });
     });
 </script>
-
 
 
 
