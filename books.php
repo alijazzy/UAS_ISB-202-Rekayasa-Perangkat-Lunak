@@ -67,19 +67,7 @@ while ($row = $book_categ->fetch_assoc()) {
 
 <?php
 include('layouts/header.php');
-include('layouts/header.php');
 ?>
-<!-- Breadcrumb Section Begin -->
-<nav class="mt-4 rounded" aria-label="breadcrumb">
-    <ol class="breadcrumb container px-3 py-2 rounded mb-4">
-        <div class="breadcrumb_item">
-            <a href="index.php">Home</a>
-            <a>></a>
-            <span>Books</span>
-        </div>
-    </ol>
-</nav>
-<!-- Breadcrumb Section End -->
 <!-- Breadcrumb Section Begin -->
 <nav class="mt-4 rounded" aria-label="breadcrumb">
     <ol class="breadcrumb container px-3 py-2 rounded mb-4">
@@ -118,11 +106,7 @@ include('layouts/header.php');
     </form>
 </div>
 <!-- Search Bar End -->
-</div>
-<!-- Search Bar End -->
 
-<!-- Display Book Begin -->
-<div class="container mb-5">
 <!-- Display Book Begin -->
 <div class="container mb-5">
     <div class="row">
@@ -212,7 +196,6 @@ include('layouts/header.php');
 </div>
 
 <?php
-include('layouts/footer.php');
 include('layouts/footer.php');
 ?>
 

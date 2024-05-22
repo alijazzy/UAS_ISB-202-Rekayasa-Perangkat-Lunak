@@ -13,7 +13,7 @@ if (isset($_GET['logout'])) {
         unset($_SESSION['member_email']);
         unset($_SESSION['member_name']);
         unset($_SESSION['member_photo']);
-        header('location: login.php');
+        header('location: index.php');
         exit;
     }
 }
@@ -168,7 +168,7 @@ include('layouts/header.php');
 
                         <h4 class="order__title"></h4>
                         <a href="#orders" class="btn btn-primary">YOUR RENT</a>
-                        <a href="index.php?logout=1" id="logout-btn" class="btn btn-danger">LOG OUT</a>
+                        <a href="account.php?logout=1" id="logout-btn" class="btn btn-danger">LOG OUT</a>
                     </div>
                 </div>
             </div>
