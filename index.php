@@ -17,7 +17,7 @@
                 <a href="book-details.php?id_buku=B05" class="swiper-slide"><img src="/img/product/Laskar Pelangi.jpg" alt=""></a>
                 <a href="book-details.php?id_buku=B04" class="swiper-slide"><img src="/img/product/Dune.jpg" alt=""></a>
                 <a href="book-details.php?id_buku=B07" class="swiper-slide"><img src="/img/product/bumi manusia.jpg" alt=""></a>
-                <a href="#" class="swiper-slide"><img src="/img/product/ayat-ayat cinta.jpg" alt=""></a>
+                <a href="#" class="swiper-slide"><img src="/img/product/Metamorfosis.jpg" alt=""></a>
                 <a href="book-details.php?id_buku=B02" class="swiper-slide"><img src="/img/product/Haji Murad.jpg" alt=""></a>
             </div>
         </div>

@@ -19,7 +19,7 @@ if (isset($_POST['login_btn'])) {
     } else if (empty($password)) {
         $error_message = 'Password cannot be empty';
     } else {
-        $query = "SELECT ID_Member, Nama_member, Alamat, Email, Nomor_Telepon, Password, Poto_Member FROM member WHERE (Email = ? OR Nomor_Telepon = ?) AND Password = ? LIMIT 1";
+        $query = "SELECT ID_Member, Nama_member, Alamat, Email, Nomor_Telepon, Password_Member, Poto_Member FROM member WHERE (Email = ? OR Nomor_Telepon = ?) AND Password_Member = ? LIMIT 1";
 
         $stmt_login = $conn->prepare($query);
         $stmt_login->bind_param('sss', $input, $input, $password);

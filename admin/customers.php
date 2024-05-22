@@ -128,7 +128,7 @@ $Members = $stmt_member->get_result();
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Password_member" class="form-label">Password</label>
-                                                <input type="text" class="form-control" id="Password_member" name="Password_member" placeholder="<?= $member['Password'] ?>">
+                                                <input type="text" class="form-control" id="Password_member" name="Password_member" placeholder="<?= $member['Password_Member'] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Foto Profile</label>

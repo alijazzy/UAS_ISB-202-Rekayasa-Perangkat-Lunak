@@ -29,7 +29,7 @@ if (isset($_POST['submit_edit'])) {
             Alamat='$alamat', 
             Email='$email', 
             Nomor_Telepon='$nomor', 
-            Password_member='$pass', 
+            Password_Member='$pass', 
             Poto_Member='$photo' 
             WHERE ID_Member='$id'";
 
@@ -46,7 +46,7 @@ if (isset($_POST['submit_edit'])) {
             Alamat='$alamat', 
             Email='$email', 
             Nomor_Telepon='$nomor', 
-            Password_member='$pass' 
+            Password_Member='$pass' 
             WHERE ID_Member='$id'";
         $result_update = mysqli_query($conn, $query_update);
     }

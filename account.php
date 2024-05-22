@@ -13,6 +13,7 @@ if (isset($_GET['logout'])) {
         unset($_SESSION['member_email']);
         unset($_SESSION['member_name']);
         unset($_SESSION['member_photo']);
+        unset($_SESSION['cart']);
         header('location: index.php');
         exit;
     }
@@ -375,9 +376,9 @@ include('layouts/header.php');
                         if (diffDays < lateDays) {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Invalid Outstanding Rental Fees',
-                                text: 'You have outstanding rental fees for the previous ' + lateDays + ' days. Please pay the fees before extending the rental period.',
-                                confirmButtonTesxt: 'OK'
+                                title: 'Invalid Extension Period',
+                                text: 'You must extend the rental period for at least ' + lateDays + ' days.',
+                                confirmButtonText: 'OK'
                             }).then(() => {
                                 modal.find('.modal-body #new_return_date').val(''); // Reset the date input
                             });
@@ -411,6 +412,7 @@ include('layouts/header.php');
         });
     });
 </script>
+
 
 
 

@@ -124,17 +124,22 @@ include('layouts/header.php');
                         <span class="badge bg-warning"><?= $book["Kategori_Buku"]; ?></span>
                         <h6>Rp <?= number_format($book["Harga_Buku"]); ?></h6>
                         <p class="card-text text-truncate"><?= $book["Pengarang"]; ?></p>
-                        <a href="<?php echo "book-details.php?id_buku=" . $book['ID_Buku']; ?>" class="btn btn-primary btn-sm">Book Details</a>
+                        <a href="<?php echo "book-details.php?id_buku=" . $book['ID_Buku']; ?>" class="btn btn-outline-info btn-sm">Book Details</a>
                         <form method="POST" action="shopping-cart.php" class="d-inline">
                             <input type="hidden" name="book_id" value="<?= $book["ID_Buku"]; ?>">
                             <input type="hidden" name="book_title" value="<?= $book["Judul_Buku"]; ?>">
                             <input type="hidden" name="book_price" value="<?= $book["Harga_Buku"]; ?>">
                             <input type="hidden" name="book_image" value="<?= $book["Sampul_Buku"]; ?>">
+                            <input type="hidden" name="book_type" value="<?= $book["Jenis_Buku"]; ?>">
                             <input type="hidden" name="product_quantity" value="1">
                             <?php if ($is_logged_in): ?>
-                            <button type="submit" class="btn btn-outline-info btn-sm" name="sewa">Rent Now</button>
+                                <?php if ($book['Status'] == 'Tersedia'): ?>
+                                    <button type="submit" class="btn btn-outline btn-sm" name="sewa" style="background-color:#F3860B;color:white">Rent Now</button>
+                                <?php else: ?>
+                                    <button type="button" class="btn btn-outline-danger btn-sm">Unavailable</button>
+                                <?php endif; ?>
                             <?php else: ?>
-                            <button type="button" class="btn btn-outline btn-sm" data-toggle="modal" data-target="#loginModal" style="background-color:#F3860B;color:white">Rent Now</button>
+                                <button type="button" class="btn btn-outline btn-sm" data-toggle="modal" data-target="#loginModal" style="background-color:#F3860B;color:white">Rent Now</button>
                             <?php endif; ?>
                         </form>
                     </div>

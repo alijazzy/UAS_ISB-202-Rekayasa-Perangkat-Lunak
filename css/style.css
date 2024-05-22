@@ -820,6 +820,23 @@ color: #999;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.button-icon {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button-icon i{
+	margin-right: 10px;
+}
 
 .short__description {
     text-align: justify; 
@@ -1038,26 +1055,6 @@ color: #999;
 	cursor: pointer;
 }
 
-.product__details__option__color label.c-1 {
-	background: #0b090c;
-}
-
-.product__details__option__color label.c-2 {
-	background: #20315f;
-}
-
-.product__details__option__color label.c-3 {
-	background: #f1af4d;
-}
-
-.product__details__option__color label.c-4 {
-	background: #ed1c24;
-}
-
-.product__details__option__color label.c-9 {
-	background: #ffffff;
-}
-
 .product__details__option__color label:after {
 	position: absolute;
 	left: -3px;
@@ -1206,9 +1203,6 @@ color: #999;
 	border-bottom: 2px solid transparent;
 }
 
-.product__details__tab .nav-tabs .nav-item .nav-link.active {
-	border-bottom: 2px solid #e53637;
-}
 
 .product__details__tab__content {
 	padding-top: 35px;
@@ -1240,6 +1234,7 @@ color: #999;
 .product__details__tab__content__item p {
 	margin-bottom: 0;
 }
+
 
 /*---------------------
   Related
@@ -1370,8 +1365,8 @@ color: #999;
 	font-weight:500px ;
 }
 
-/* .breadcrumb-option {
-	background: #f3f2ee;
+.breadcrumb-option {
+	background-color: #ECF0F1;
 	padding: 40px 0;
 }
 
@@ -1398,9 +1393,16 @@ color: #999;
 
 .breadcrumb__links span {
 	font-size: 15px;
-	color: #b7b7b7;
+	color: #F3860B;
 	display: inline-block;
-} */
+}
+
+.shopcart-breadcrumb{
+	margin-left: auto;
+    margin-right: auto;
+    padding-left: 225px;
+    padding-right: 225px;
+}
 
 /*---------------------
   Breadcrumb Blog
@@ -1614,14 +1616,28 @@ color: #999;
 /*---------------------
   Shopping Cart
 -----------------------*/
-
-.shopping__cart__table {
-	margin-bottom: 30px;
+.detil_produk{
+	margin-left: auto;
+    margin-right: auto;
+    padding-left: 225px; /* Adjust this value to match the left margin of your navbar */
+    padding-right: 225px;
+}
+.shopping-cart {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 200px; /* Adjust this value to match the left margin of your navbar */
+    padding-right: 200px; /* Adjust this value to match the right margin of your navbar */
 }
 
 .shopping__cart__table table {
-	width: 100%;
-	margin: 10px;
+    width: 100%;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+
+.shopping__cart__table {
+	margin-bottom: 30px;
 }
 
 .shopping__cart__table table thead {
@@ -1652,9 +1668,14 @@ color: #999;
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__pic {
 	float: left;
 	margin-right: 30px;
-	height: 90px;
-	width: 90px;
 }
+
+.shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__pic img {
+    width: 90px; /* Atur lebar yang tetap */
+    height: 120px; /* Atur tinggi yang tetap */
+    object-fit: cover; /* Pastikan gambar tetap terlihat proporsional */
+}
+
 
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__text {
 	overflow: hidden;
@@ -1670,52 +1691,11 @@ color: #999;
 
 .shopping__cart__table table tbody tr td.product__cart__item .product__cart__item__text h5 {
 	color: #0d0d0d;
-	font-weight: 700;
+	font-weight: 500;
 }
 
 .shopping__cart__table table tbody tr td.quantity__item {
 	width: 175px;
-}
-
-.shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 {
-	width: 80px;
-}
-
-.shopping__cart__table table tbody tr td.quantity__item .quantity .editbtn {
-	margin-top: 10px;
-	background-color: grey;
-	border: none;
-	color: white;
-}
-
-.shopping__cart__table table tbody tr td.quantity__item .quantity input {
-	width: 70px;
-	text-align: center;
-	margin: auto;
-	padding: auto;
-}
-
-.shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 input {
-	width: 50px;
-	border: none;
-	text-align: center;
-	color: #111111;
-	font-size: 16px;
-	padding: auto;
-}
-
-.shopping__cart__table table tbody tr td.quantity__item .quantity .pro-qty-2 .qtybtn {
-	font-size: 16px;
-	color: #888888;
-	width: 10px;
-	cursor: pointer;
-}
-
-.shopping__cart__table table tbody tr td.quantity__item .edit_qty {
-	background-color: wheat;
-	border: none;
-	color: coral;
-	position: relative;
 }
 
 .shopping__cart__table table tbody tr td.cart__price {
@@ -1755,101 +1735,11 @@ color: #999;
 	display: inline-block;
 }
 
-.cart__discount {
-	margin-bottom: 60px;
+.border-separator {
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
 }
 
-.cart__discount h6 {
-	color: #111111;
-	font-weight: 700;
-	text-transform: uppercase;
-	margin-bottom: 35px;
-}
-
-.cart__discount form {
-	position: relative;
-}
-
-.cart__discount form input {
-	font-size: 14px;
-	color: #b7b7b7;
-	height: 50px;
-	width: 100%;
-	border: 1px solid #e1e1e1;
-	padding-left: 20px;
-}
-
-.cart__discount form input::-webkit-input-placeholder {
-	color: #b7b7b7;
-}
-
-.cart__discount form input::-moz-placeholder {
-	color: #b7b7b7;
-}
-
-.cart__discount form input:-ms-input-placeholder {
-	color: #b7b7b7;
-}
-
-.cart__discount form input::-ms-input-placeholder {
-	color: #b7b7b7;
-}
-
-.cart__discount form input::placeholder {
-	color: #b7b7b7;
-}
-
-.cart__discount form button {
-	font-size: 14px;
-	color: #ffffff;
-	font-weight: 700;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	background: #111111;
-	padding: 0 30px;
-	border: none;
-	position: absolute;
-	right: 0;
-	top: 0;
-	height: 100%;
-}
-
-.cart__total {
-	background: #f3f2ee;
-	padding: 35px 40px 40px;
-}
-
-.cart__total h6 {
-	color: #111111;
-	text-transform: uppercase;
-	margin-bottom: 12px;
-}
-
-.cart__total ul {
-	margin-bottom: 25px;
-}
-
-.cart__total ul li {
-	list-style: none;
-	font-size: 16px;
-	color: #444444;
-	line-height: 40px;
-	overflow: hidden;
-}
-
-.cart__total ul li span {
-	font-weight: 700;
-	color: #e53637;
-	float: right;
-}
-
-.cart__total .primary-btn {
-	display: block;
-	width: 100%;
-	padding: 12px 10px;
-	text-align: center;
-	letter-spacing: 2px;
-}
 
 /*---------------------
   Checkout
