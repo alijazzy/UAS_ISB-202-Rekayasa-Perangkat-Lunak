@@ -20,47 +20,46 @@ if (isset($_POST['register_btn'])) {
         $photo = $_FILES['photo']['tmp_name'];
         $photo_name = $_FILES['photo']['name'];
         $photo_extension = pathinfo($photo_name, PATHINFO_EXTENSION);
-        $new_photo_name = uniqid() . '_' . time() . '.' . $photo_extension; 
+
+        // Membuat nama file baru dengan penambahan timestamp untuk menghindari konflik
+        $safe_photo_name = pathinfo($photo_name, PATHINFO_FILENAME);
+        $safe_photo_name = preg_replace('/[^a-zA-Z0-9-_]/', '_', $safe_photo_name);
+        $new_photo_name = $safe_photo_name . '_' . time() . '.' . $photo_extension;
         $photo_destination = "../img/profile/" . $new_photo_name;
-        move_uploaded_file($photo, $photo_destination);
 
-        // Cek apakah email sudah terdaftar sebelumnya
-        $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ?";
-        $stmt_check_user = $conn->prepare($query_check_user);
-        $stmt_check_user->bind_param('s', $email);
-        $stmt_check_user->execute();
-        $stmt_check_user->bind_result($num_rows);
-        $stmt_check_user->fetch();
-        $stmt_check_user->close();
+        // Cek apakah file berhasil diupload
+        if (move_uploaded_file($photo, $photo_destination)) {
+            // Cek apakah email sudah terdaftar sebelumnya
+            $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ?";
+            $stmt_check_user = $conn->prepare($query_check_user);
+            $stmt_check_user->bind_param('s', $email);
+            $stmt_check_user->execute();
+            $stmt_check_user->bind_result($num_rows);
+            $stmt_check_user->fetch();
+            $stmt_check_user->close();
 
-        // Jika ada email yang sama
-        if ($num_rows !== 0) {
-            header('location: Register.php?error=User with this email already exists');
-            exit;
-        }
+            // Jika ada email yang sama
+            if ($num_rows !== 0) {
+                header('location: Register.php?error=User with this email already exists');
+                exit;
+            }
 
-        // Simpan data user ke database
-        $query_save_user = "INSERT INTO member (Nama_Member, Email, Password, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt_save_user = $conn->prepare($query_save_user);
-        $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
+            // Simpan data user ke database
+            $query_save_user = "INSERT INTO member (Nama_Member, Email, Password, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt_save_user = $conn->prepare($query_save_user);
+            $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $photo_name);
 
-        if ($stmt_save_user->execute()) {
-            // Mendapatkan ID member yang baru ditambahkan
-            $new_member_id = $stmt_save_user->insert_id;
-
-            // Memperbarui nama file dalam database
-            $query_update_photo_name = "UPDATE member SET Poto_Member = ? WHERE ID_Member = ?";
-            $stmt_update_photo_name = $conn->prepare($query_update_photo_name);
-            $stmt_update_photo_name->bind_param('si', $new_photo_name, $new_member_id);
-            $stmt_update_photo_name->execute();
-            $stmt_update_photo_name->close();
-
-            $_SESSION['user_email'] = $email;
-            $_SESSION['logged_in'] = true;
-            header('location: login.php?register_success=You registered successfully!');
-            exit;
+            if ($stmt_save_user->execute()) {
+                $_SESSION['user_email'] = $email;
+                $_SESSION['logged_in'] = true;
+                header('location: login.php?register_success=You registered successfully!');
+                exit;
+            } else {
+                header('location: Register.php?error=Could not create an account at the moment');
+                exit;
+            }
         } else {
-            header('location: Register.php?error=Could not create an account at the moment');
+            header('location: Register.php?error=Failed to upload photo');
             exit;
         }
     } else {
@@ -91,6 +90,7 @@ if (isset($_POST['register_btn'])) {
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="css/styleRegister.css" rel="stylesheet">
 
+
 </head>
 
 <body>
@@ -100,7 +100,7 @@ if (isset($_POST['register_btn'])) {
     </div>
     <div class="col-md-6 no-gutters d-flex justify-content-center align-items-center">
         <div class="form-outer">
-            <div class="rightside" style="margin-top: 150px;">
+            <div class="rightside" style="margin-top: 200px;">
                 <div class="text-start mb-10">
                     <p class="mb-4" style="text-align: center; font-size: 20px; font-weight: bold;">
                         PITIMOSS Smart Library
@@ -115,15 +115,18 @@ if (isset($_POST['register_btn'])) {
                     <form id="registerForm" method="POST" action="Register.php" enctype="multipart/form-data">
                         <div id="form0">
                             <!-- Form bagian pertama -->
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control form-control-user" name="username" placeholder="Enter Username">
-                            
-                            <label for="Email">Email</label>
-                            <input type="text" class="form-control form-control-user" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address">
-                            
-                            <label for="Password">Password</label>
-                            <input type="password" class="form-control form-control-user" name="password" placeholder="Enter your Password">
-                            
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control form-control-user" name="username" placeholder="Enter Username">
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control form-control-user" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">Password</label>
+                                <input type="password" class="form-control form-control-user" name="password" placeholder="Enter your Password">
+                            </div>
                             <div class="btn-box d-flex justify-content-end">
                                 <button type="button" id="Next1">Next</button>
                             </div>
@@ -131,15 +134,18 @@ if (isset($_POST['register_btn'])) {
                         
                         <div id="form1" style="display: none;">
                             <!-- Form bagian kedua -->
-                            <label for="Alamat">Alamat</label>
-                            <input type="text" class="form-control form-control-user" name="address" placeholder="Enter Address">
-                            
-                            <label for="Phone Number">Phone Number</label>
-                            <input type="text" class="form-control form-control-user" name="phone" placeholder="Enter Phone Number">
-                            
-                            <label for="Photo">Foto Profile</label>
-                            <input type="file" class="form-control-file" name="photo">
-                            
+                            <div class="form-group">
+                                <label for="Alamat">Alamat</label>
+                                <input type="text" class="form-control form-control-user" name="address" placeholder="Enter Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="Phone Number">Phone Number</label>
+                                <input type="text" class="form-control form-control-user" name="phone" placeholder="Enter Phone Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="Photo">Foto Profile</label>
+                                <input type="file" class="form-control-file" name="photo" required>
+                            </div>
                             <div class="btn-box d-flex justify-content-between">
                                 <button type="button" id="Previous1">Previous</button>
                                 <button type="submit" name="register_btn">Register</button>
@@ -180,4 +186,4 @@ if (isset($_POST['register_btn'])) {
     }
 </script>
 </body>
-</html>
+</html> 
