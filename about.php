@@ -48,11 +48,11 @@ include('layouts/header.php');
                     <div class="card-body d-flex flex-column align-items-start">
                         <strong class="d-inline-block mb-2 text-success">recommended</strong>
                         <h3 class="mb-0">
-                            <a class="text-dark" href="index.php">Recomend Book</a>
+                            <a class="text-dark" href="Featured.php">Recomend Book</a>
                         </h3>
                         <div class="mb-1 text-muted">Now</div>
                         <p class="card-text mb-auto">Check out this week's recommended books! Explore captivating stories and expand your reading list. Don't miss out!</p>
-                        <a href="index.php">Go to Recomendation</a>
+                        <a href="Featured.php">Go to Recomendation</a>
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" src="img/instagram/instagram-3.jpg" alt="Card image cap" style="width: 200px; height: 250px;" </div>
                 </div>
