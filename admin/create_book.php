@@ -72,7 +72,7 @@ if (isset($_POST['create_btn'])) {
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Create Book Data</h6>
+            <h6 class="m-0 font-weight-bold text"  style="color: #FA9828">Create Book Data</h6>
         </div>
         <div class="card-body">
             <div class="row">

@@ -3674,6 +3674,7 @@ section nav .social_icon a{
 	height: 200%;
 	display: flex;
 	align-items: center;
+	justify-content: center;
   }
   
   .s003 form .inner-form .input-field.first-wrap .input-select select.choices-single-default {

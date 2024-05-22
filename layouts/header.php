@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
     <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
+
 </head>
 
 <body>

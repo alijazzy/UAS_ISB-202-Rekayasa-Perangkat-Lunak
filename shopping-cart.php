@@ -1,41 +1,38 @@
 <?php
 session_start();
-if (isset($_POST['add_to_cart'])) {
+if (isset($_POST['sewa'])) {
     // If user has already add product to the cart
     if (isset($_SESSION['cart'])) {
-        $products_array_ids = array_column($_SESSION['cart'], "product_id");
-        // If product has already added to cart or not
-        if (!in_array($_POST['product_id'], $products_array_ids)) {
-            $product_id = $_POST['product_id'];
+        $products_array_ids = array_column($_SESSION['cart'], "book_id");
+        
+        // If product has already been added to cart
+        if (!in_array($_POST['book_id'], $products_array_ids)) {
+            $book_id = $_POST['book_id'];
 
             $product_array = array(
-                'product_id' => $_POST['product_id'],
-                'product_name' => $_POST['product_name'],
-                'product_price' => $_POST['product_price'],
-                'product_image' => $_POST['product_image'],
+                'book_id' => $_POST['book_id'],
+                'book_title' => $_POST['book_title'],
+                'book_price' => $_POST['book_price'],
+                'book_image' => $_POST['book_image'],
                 'product_quantity' => $_POST['product_quantity']
             );
 
-            $_SESSION['cart'][$product_id] = $product_array;
-
-            // Product has already been added
+            $_SESSION['cart'][$book_id] = $product_array;
         } else {
             echo '<script>alert("Product was already added to the cart")</script>';
         }
-
-        // If user the first add product to the cart
-    } else {
-        $product_id = $_POST['product_id'];
-        $product_name = $_POST['product_name'];
-        $product_price = $_POST['product_price'];
-        $product_image = $_POST['product_image'];
+    }else {
+        $book_id = $_POST['book_id'];
+        $book_title = $_POST['book_title'];
+        $book_price = $_POST['book_price'];
+        $book_image = $_POST['book_image'];
         $product_quantity = $_POST['product_quantity'];
 
         $product_array = array(
-            'product_id' => $product_id,
-            'product_name' => $product_name,
-            'product_price' => $product_price,
-            'product_image' => $product_image,
+            'book_id' => $book_id,
+            'book_title' => $book_title,
+            'book_price' => $book_price,
+            'book_image' => $book_image,
             'product_quantity' => $product_quantity
         );
 
@@ -137,11 +134,11 @@ function calculateTotalCart()
                                         <tr>
                                             <td class="product__cart__item">
                                                 <div class="product__cart__item__pic">
-                                                    <img src="img/product/<?php echo $value['product_image']; ?>" alt="">
+                                                    <img src="img/product/<?php echo $value['book_image']; ?>" alt="">
                                                 </div>
                                                 <div class="product__cart__item__text">
-                                                    <h6><?php echo $value['product_name']; ?></h6>
-                                                    <h5><?php echo setRupiah(($value['product_price'] * $kurs_dollar)); ?></h5>
+                                                    <h6><?php echo $value['book_title']; ?></h6>
+                                                    <h5><?php echo $value['product_price']; ?></h5>
                                                 </div>
                                             </td>
                                             <td class="quantity__item">

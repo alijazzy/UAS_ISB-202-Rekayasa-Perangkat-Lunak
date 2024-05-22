@@ -43,7 +43,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Books Management</h6>
-                <a class="collapse-item" href="products.php">Book List</a>
+                <a class="collapse-item" href="books.php">Book List</a>
                 <a class="collapse-item" href="create_book.php">Create Book Data</a>
             </div>
         </div>
