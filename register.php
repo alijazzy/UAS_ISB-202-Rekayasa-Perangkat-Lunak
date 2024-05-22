@@ -39,6 +39,13 @@ if (isset($_POST['register_btn'])) {
             exit;
         }
 
+        $photo = $_FILES['photo']['tmp_name'];
+        $photo_name = $_FILES['photo']['name'];
+        $photo_extension = pathinfo($photo_name, PATHINFO_EXTENSION);
+        $new_photo_name = $photo_name; // Menggunakan nama file asli
+        $photo_destination = "../img/profile/" . $new_photo_name;
+        move_uploaded_file($photo, $photo_destination);
+
         // Simpan data user ke database
         $query_save_user = "INSERT INTO member (Nama_Member, Email, Password, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt_save_user = $conn->prepare($query_save_user);
@@ -100,7 +107,7 @@ if (isset($_POST['register_btn'])) {
     </div>
     <div class="col-md-6 no-gutters d-flex justify-content-center align-items-center">
         <div class="form-outer">
-            <div class="rightside" style="margin-top: 150px;">
+            <div class="rightside" style="margin-top: 200px;">
                 <div class="text-start mb-10">
                     <p class="mb-4" style="text-align: center; font-size: 20px; font-weight: bold;">
                         PITIMOSS Smart Library
