@@ -112,23 +112,23 @@ $Members = $stmt_member->get_result();
                                             <input type="hidden" name="ID_Member" value="<?= $member['ID_Member'] ?>">
                                             <div class="mb-3">
                                                 <label for="Nama_member" class="form-label">Nama</label>
-                                                <input type="text" class="form-control" id="Nama_member" name="Nama_member" placeholder="<?= $member['Nama_member'] ?>">
+                                                <input type="text" class="form-control" id="Nama_member" name="Nama_member" value="<?= $member['Nama_member'] ?>" onkeypress="return isLetter(event)" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Alamat" class="form-label">Alamat</label>
-                                                <input type="text" class="form-control" id="Alamat" name="Alamat" placeholder="<?= $member['Alamat'] ?>">
+                                                <input type="text" class="form-control" id="Alamat" name="Alamat" value="<?= $member['Alamat'] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Email" class="form-label">Email address</label>
-                                                <input type="email" class="form-control" id="Email" name="Email" placeholder="<?= $member['Email'] ?>">
+                                                <input type="email" class="form-control" id="Email" name="Email" value="<?= $member['Email'] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Nomor_Telepon" class="form-label">Nomor Telepon</label>
-                                                <input type="text" class="form-control" id="Nomor_Telepon" name="Nomor_Telepon" placeholder="<?= $member['Nomor_Telepon'] ?>">
+                                                <input type="text" class="form-control" id="Nomor_Telepon" name="Nomor_Telepon" value="<?= $member['Nomor_Telepon'] ?>" minlength="12" maxlength="13" pattern="\d{12,13}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Password_member" class="form-label">Password</label>
-                                                <input type="text" class="form-control" id="Password_member" name="Password_member" placeholder="<?= $member['Password'] ?>">
+                                                <input type="password" class="form-control" id="Password_member" name="Password_member" value="<?= $member['Password_member'] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Foto Profile</label>
@@ -152,4 +152,14 @@ $Members = $stmt_member->get_result();
 
 <script src="../admin/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function isLetter(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122)) {
+            return false;
+        }
+        return true;
+    }
+</script>
 <?php include('layouts/footer.php'); ?>
