@@ -44,48 +44,11 @@ if (isset($_POST['sewa'])) {
         $_SESSION['cart'][$book_id] = $product_array;
     }
 
-    // Calculate total
-    calculateTotalCart();
 } else if (isset($_POST['remove_product'])) {
     $book_id = $_POST['book_id'];
     unset($_SESSION['cart'][$book_id]);
-    // Calculate total
-    calculateTotalCart();
-} else if (isset($_POST['edit_quantity'])) {
-    // We get the id from the form
-    $book_id = $_POST['book_id'];
-    // Set product quantity to 1, as we only have one book available
-    $product_quantity = 1;
+} 
 
-    // We get product array from the session
-    $product_array = $_SESSION['cart'][$book_id];
-
-    // Update the product quantity
-    $product_array['product_quantity'] = $product_quantity;
-
-    // Return array back its place
-    $_SESSION['cart'][$book_id] = $product_array;
-
-    // Calculate total
-    calculateTotalCart();
-}
-
-function calculateTotalCart()
-{
-    $total_price = 0;
-    $total_quantity = 0;
-
-    foreach ($_SESSION['cart'] as $key => $value) {
-        $price = $value['book_price'];
-        $quantity = $value['product_quantity'];
-
-        $total_price += ($price * $quantity);
-        $total_quantity += $quantity;
-    }
-
-    $_SESSION['total'] = $total_price;
-    $_SESSION['quantity'] = $total_quantity;
-}
 
 include('layouts/header.php');
 ?>

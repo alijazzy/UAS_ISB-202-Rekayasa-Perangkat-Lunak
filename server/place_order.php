@@ -18,6 +18,10 @@ if (!isset($_SESSION['logged_in'])) {
         //Tanggal Kembali
         $return_date = $_POST['return_date'];
 
+        //Dibuat Session
+        $_SESSION['total_amount'] = $total_price;
+        $_SESSION['return_date'] = $return_date;
+
         $query_orders = "INSERT INTO transaksi (ID_Member, Total_Harga, Tanggal_transaksi, Status_Pembayaran) 
                     VALUES (?, ?, ?, ?)";
 
@@ -31,7 +35,7 @@ if (!isset($_SESSION['logged_in'])) {
         }
 
         // 2. Issue new order and store order info to the database
-        $order_id = $stmt_orders->insert_id;
+        $id_transaksi = $stmt_orders->insert_id;
 
         // 3. Get products from the cart
         foreach ($_SESSION['cart'] as $key => $value) {
@@ -55,9 +59,9 @@ if (!isset($_SESSION['logged_in'])) {
         // 5. Remove everything from cart --> delay until payment is done
         unset($_SESSION['cart']);
 
-        $_SESSION['order_id'] = $order_id;
+        $_SESSION['id_transaksi'] = $id_transaksi;
 
         // 6. Inform user whether everyhting is fine or there is a problem
-        header('location: ../payment.php?order_status="order placed successfully"');
+        header('location: ../payment.php?order_status="placed"');
     }
 }
