@@ -16,49 +16,90 @@ if (isset($_POST['submit_edit'])) {
         $target_file = $target_dir . basename($_FILES["Poto_Member"]["name"]);
 
         // Pindahkan file baru ke folder
-        move_uploaded_file($_FILES['Poto_Member']['tmp_name'], $target_file);
+        if (move_uploaded_file($_FILES['Poto_Member']['tmp_name'], $target_file)) {
+            // Hapus foto lama jika ada
+            $query_select_photo = "SELECT Poto_Member FROM member WHERE ID_Member = ?";
+            $result_select_photo = $conn->prepare($query_select_photo);
+            $result_select_photo->bind_param('i', $id);
+            $result_select_photo->execute();
+            $row = $result_select_photo->get_result()->fetch_assoc();
+            $old_photo = $row['Poto_Member'];
 
-        // Hapus foto lama jika ada
-        $query_select_photo = "SELECT Poto_Member FROM member WHERE ID_Member = '$id'";
-        $result_select_photo = mysqli_query($conn, $query_select_photo);
-        $row = mysqli_fetch_assoc($result_select_photo);
-        $old_photo = $row['Poto_Member'];
+            if ($old_photo && file_exists("img/" . $old_photo)) {
+                unlink("img/" . $old_photo);
+            }
 
-        $query_update = "UPDATE member SET 
-            Nama_member='$nama', 
-            Alamat='$alamat', 
-            Email='$email', 
-            Nomor_Telepon='$nomor', 
-            Password_Member='$pass', 
-            Poto_Member='$photo' 
-            WHERE ID_Member='$id'";
+            $query_update = "UPDATE member SET 
+                Nama_member = ?, 
+                Alamat = ?, 
+                Email = ?, 
+                Nomor_Telepon = ?, 
+                Password_member = ?, 
+                Poto_Member = ? 
+                WHERE ID_Member = ?";
 
-        $result_update = mysqli_query($conn, $query_update);
-
-        // Hapus foto lama jika berhasil mengupdate dengan foto baru
-        if ($result_update && file_exists("img/" . $old_photo)) {
-            unlink("img/" . $old_photo);
+            $result_update = $conn->prepare($query_update);
+            if ($result_update !== false) {
+                $result_update->bind_param(
+                    'ssssssi',
+                    $nama,
+                    $alamat,
+                    $email,
+                    $nomor,
+                    $pass,
+                    $photo,
+                    $id
+                );
+                if ($result_update->execute()) {
+                    $success = true;
+                    header("Location: customers.php?success=$success&message=Member Updated!");
+                    exit();
+                } else {
+                    $success = false;
+                    header("Location: customers.php?success=$success&error=Failed to Update!");
+                    exit();
+                }
+            } else {
+                // Handle the error, e.g., log it or display an error message to the user
+                echo "Error preparing the SQL statement.";
+            }
+        } else {
+            // Handle the file upload error
+            echo "Error uploading the file.";
         }
     } else {
         // Jika tidak ada file yang diupload, update tanpa mengubah foto
         $query_update = "UPDATE member SET 
-            Nama_member='$nama', 
-            Alamat='$alamat', 
-            Email='$email', 
-            Nomor_Telepon='$nomor', 
-            Password_Member='$pass' 
-            WHERE ID_Member='$id'";
-        $result_update = mysqli_query($conn, $query_update);
-    }
+            Nama_member = ?, 
+            Alamat = ?, 
+            Email = ?, 
+            Nomor_Telepon = ?, 
+            Password_member = ? 
+            WHERE ID_Member = ?";
 
-    if ($result_update) {
-        $success = true;
-        header("Location: customers.php?success=$success&message=Member Updated!");
-        exit();
-    } else {
-        $success = false;
-        header("Location: customers.php?success=$success&error=Failed to Update!");
-        exit();
+        $result_update = $conn->prepare($query_update);
+        if ($result_update !== false) {
+            $result_update->bind_param(
+                'sssssi',
+                $nama,
+                $alamat,
+                $email,
+                $nomor,
+                $pass,
+                $id
+            );
+            if ($result_update->execute()) {
+                $success = true;
+                header("Location: customers.php?success=$success&message=Member Updated!");
+                exit();
+            } else {
+                $success = false;
+                header("Location: customers.php?success=$success&error=Failed to Update!");
+                exit();
+            }
+        } else {
+            // Handle the error, e.g., log it or display an error message to the user
+            echo "Error preparing the SQL statement.";
+        }
     }
 }
-?>
