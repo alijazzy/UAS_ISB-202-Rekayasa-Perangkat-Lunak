@@ -16,9 +16,9 @@
                         </div>
                         <h6>Follow Us</h6>
                     <div class="footer__widget-social">
-                        <a href="https://www.facebook.com/pitimoss/"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/pitimoss/"><i class="fa fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/pitimoss/"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://x.com/pitimoss"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/pitimoss/"><i class="fa-brands fa-instagram"></i></a>
                     </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
-                            | Sistem Informasi Itenas Bandung | This website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://github.com/kurniaramadhan" target="_blank">Kelompok 2</a>
+                            | Sistem Informasi Itenas Bandung | This website is made with <i class="fa-solid fa-heart"></i> by <a href="" target="_blank">Kelompok 2</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>

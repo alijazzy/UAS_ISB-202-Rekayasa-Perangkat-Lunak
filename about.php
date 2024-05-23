@@ -37,7 +37,7 @@ include('layouts/header.php');
                             <a class="text-dark" href="books.php">List Book</a>
                         </h3>
                         <div class="mb-1 text-muted">Now</div>
-                        <p class="card-text mb-auto">Explore our book collection and discover a fascinating world of knowledge. Check out our book list now!</p>
+                        <p class="card-text mb-auto about_story">Explore our book collection and discover a fascinating world of knowledge. Check out our book list now!</p>
                         <a href="books.php">Go to list Book</a>
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" src="img/instagram/instagram-1.jpg" alt="Card image cap" style="width: 200px; height: 250px;">
@@ -51,8 +51,10 @@ include('layouts/header.php');
                             <a class="text-dark" href="Featured.php">Recomend Book</a>
                         </h3>
                         <div class="mb-1 text-muted">Now</div>
-                        <p class="card-text mb-auto">Check out this week's recommended books! Explore captivating stories and expand your reading list. Don't miss out!</p>
-                        <a href="Featured.php">Go to Recomendation</a>
+
+                        <p class="card-text mb-auto about_story">Check out this week's recommended books! Explore captivating stories and expand your reading list. Don't miss out!</p>
+                        <a href="index.php">Go to Recomendation</a>
+
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" src="img/instagram/instagram-3.jpg" alt="Card image cap" style="width: 200px; height: 250px;" </div>
                 </div>
@@ -66,7 +68,7 @@ include('layouts/header.php');
                     <h2>ABOUT PITIMOSS </h2>
                     <h4 class="text-secondary">"We are not just renting books, we are building a reading culture for the children of our nation."</h4>
                     <br>
-                    <p class="text-secondary">
+                    <p class="text-secondary about_story">
                         PITIMOSS Fun Library, also known as a reading park, was founded with a passion for books and a mission
                         to promote reading among all segments of society. It offers affordable and accessible books to people of all ages,
                         backgrounds, and locations. Established in 2003, PITIMOSS has grown rapidly through continuous innovation and the use
@@ -86,7 +88,7 @@ include('layouts/header.php');
                     <h2>THE PIONEERS</h2>
                     <h4 class="text-secondary">"Making Reading a Pleasurable and Affordable Habit."</h4>
                     <br>
-                    <p class="text-secondary">
+                    <p class="text-secondary about_story">
                         PITIMOSS was founded by four close friends with diverse academic backgrounds, based on a foundation of kinship and consensus,
                         driven by modern management principles and professionalism. The founders are Yosrizal Sandra, Yusra Hamdi, Andi Sinaga, and Yulio Ferinaldo.
                     </p>
@@ -98,7 +100,7 @@ include('layouts/header.php');
                     <h2>THE CONCEPT</h2>
                     <h4 class="text-secondary">"Where Books Come Alive, and Readers Find Home."</h4>
                     <br>
-                    <p class="text-secondary">
+                    <p class="text-secondary about_story">
                         PITIMOSS is not just a reading park; it is an entertaining and comfortable haven with friendly and family-like service,
                         making it a second home for book lovers. We constantly innovate in every aspect to ensure that PITIMOSS remains an integral part of the
                         lives of book enthusiasts. Step into PITIMOSS and embark on a captivating literary journey where imagination knows no bounds.
