@@ -18,6 +18,7 @@ if (isset($_POST['sewa'])) {
                 'book_price' => $_POST['book_price'],
                 'book_image' => $_POST['book_image'],
                 'book_type' => $_POST['book_type'],
+                'book_genre' => $_POST['book_genre'],
                 'product_quantity' => 1 // Set product quantity to 1
             );
 
@@ -31,6 +32,7 @@ if (isset($_POST['sewa'])) {
         $book_price = $_POST['book_price'];
         $book_image = $_POST['book_image'];
         $book_type = $_POST['book_type'];
+        $book_genre = $_POST['book_genre'];
 
         $product_array = array(
             'book_id' => $book_id,
@@ -38,6 +40,7 @@ if (isset($_POST['sewa'])) {
             'book_price' => $book_price,
             'book_image' => $book_image,
             'book_type' => $book_type,
+            'book_genre' => $book_genre,
             'product_quantity' => 1 // Set product quantity to 1
         );
 
@@ -95,8 +98,8 @@ include('layouts/header.php');
                                                 <img src="img/product/<?php echo $value['book_image']; ?>" alt="">
                                             </div>
                                             <div class="product__cart__item__text">
-                                                <h6><?php echo $value['book_title']; ?></h6>
-                                                <h5><?php echo $value['book_price']; ?></h5>
+                                                <h5><?php echo $value['book_title']; ?></h5>
+                                                <h6><?php echo $value['book_genre']; ?></h6>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
