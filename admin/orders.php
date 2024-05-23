@@ -9,8 +9,11 @@ if (!isset($_SESSION['admin_logged_in'])) {
 <?php include('layouts/header.php'); ?>
 
 <?php
-$query_orders = "SELECT s.ID_Sewa, s.ID_Member, m.Nama_Member, s.ID_Buku, b.Judul_Buku, s.Tanggal_Pinjam, s.Tanggal_Kembali FROM sewa s JOIN member m ON s.ID_Member = m.ID_Member JOIN buku b ON s.ID_Buku = b.ID_Buku
-ORDER BY s.Tanggal_Pinjam DESC";
+$query_orders = "SELECT s.ID_Sewa, s.ID_Member, m.Nama_Member, s.ID_Buku, b.Judul_Buku, s.Tanggal_Pinjam, s.Tanggal_Kembali 
+                 FROM sewa s 
+                 JOIN member m ON s.ID_Member = m.ID_Member 
+                 JOIN buku b ON s.ID_Buku = b.ID_Buku
+                 ORDER BY s.Tanggal_Pinjam DESC";
 
 $stmt_orders = $conn->prepare($query_orders);
 $stmt_orders->execute();
@@ -37,16 +40,22 @@ $rents = $stmt_orders->get_result();
         <div class="card-body">
             <?php if (isset($_GET['success_status'])) { ?>
                 <div class="alert alert-info" role="alert">
-                    <?php if (isset($_GET['success_status'])) {
-                        echo $_GET['success_status'];
-                    } ?>
+                    <?php echo $_GET['success_status']; ?>
+                </div>
+            <?php } ?>
+            <?php if (isset($_GET['success_delete_message'])) { ?>
+                <div class="alert alert-info" role="alert">
+                    <?php echo $_GET['success_delete_message']; ?>
+                </div>
+            <?php } ?>
+            <?php if (isset($_GET['fail_delete_message'])) { ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $_GET['fail_delete_message']; ?>
                 </div>
             <?php } ?>
             <?php if (isset($_GET['fail_status'])) { ?>
                 <div class="alert alert-danger" role="alert">
-                    <?php if (isset($_GET['fail_status'])) {
-                        echo $_GET['fail_status'];
-                    } ?>
+                    <?php echo $_GET['fail_status']; ?>
                 </div>
             <?php } ?>
             <div class="table-responsive">
@@ -74,8 +83,8 @@ $rents = $stmt_orders->get_result();
                                 <td><?php echo $rent['Tanggal_Pinjam']; ?></td>
                                 <td><?php echo $rent['Tanggal_Kembali']; ?></td>
                                 <td class="text-center">
-                                    <a href="edit_order.php?order_id=<?php echo $order['order_id']; ?>" class="btn btn-info btn-circle">
-                                        <i class="fas fa-edit"></i>
+                                    <a href="#" class="btn btn-danger btn-circle delete-rent" data-id="<?php echo $rent['ID_Sewa']; ?>">
+                                        <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -87,6 +96,32 @@ $rents = $stmt_orders->get_result();
     </div>
 
 </div>
+<script>
+    // Select all delete-rent buttons
+    document.querySelectorAll('.delete-rent').forEach(item => {
+        item.addEventListener('click', event => {
+            event.preventDefault();
+            const sewaId = item.getAttribute('data-id');
+
+            // Show SweetAlert2 confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, redirect to delete_rents.php with rent_id
+                    window.location.href = `delete_rents.php?rent_id=${sewaId}`;
+                }
+            });
+        });
+    });
+</script>
+
 <!-- /.container-fluid -->
 
 </div>
