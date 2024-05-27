@@ -47,7 +47,7 @@ if (isset($_POST['register_btn'])) {
         move_uploaded_file($photo, $photo_destination);
 
         // Simpan data user ke database
-        $query_save_user = "INSERT INTO member (Nama_Member, Email, Password, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
+        $query_save_user = "INSERT INTO member (Nama_Member, Email, Password_Member, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt_save_user = $conn->prepare($query_save_user);
         $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
 
@@ -64,6 +64,8 @@ if (isset($_POST['register_btn'])) {
 
             $_SESSION['user_email'] = $email;
             $_SESSION['logged_in'] = true;
+            $_SESSION['member_id'] = $new_member_id;
+            
             header('location: login.php?register_success=You registered successfully!');
             exit;
         } else {

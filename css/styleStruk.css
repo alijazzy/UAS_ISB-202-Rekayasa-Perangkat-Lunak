@@ -1,0 +1,135 @@
+#invoice-POS {
+    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+    padding: 5mm; /* Increased padding for better spacing */
+    margin: 0 auto;
+    width: 15%; /* Adjusted width to make it responsive */
+    background: #FFF;
+  }
+  
+  #invoice-POS::selection {
+    background: #f31544;
+    color: #FFF;
+  }
+  
+  #invoice-POS::moz-selection {
+    background: #f31544;
+    color: #FFF;
+  }
+  
+  #invoice-POS h1 {
+    font-size: 1.5em;
+    color: #222;
+  }
+  
+  #invoice-POS h2 {
+    font-size: 0.9em;
+  }
+  
+  #invoice-POS h3 {
+    font-size: 1.2em;
+    font-weight: 300;
+    line-height: 2em;
+  }
+  
+  #invoice-POS p {
+    font-size: 0.7em;
+    color: #666;
+    line-height: 1.2em;
+  }
+  
+  #top, #mid, #bot {
+    border-bottom: 1px solid #EEE;
+  }
+  
+  #top {
+    min-height: 100px;
+  }
+  
+  #mid {
+    min-height: 80px;
+  }
+  
+  #bot {
+    min-height: 50px;
+  }
+  
+  #top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.logo {
+    height: 80px;
+    width: 100px;
+    background: url(../img/pitimosLogo.png) no-repeat;
+    background-size: 110px 110px;
+}
+
+.logo h2 {
+    margin-top: 5px; /* Adjust as needed */
+}
+
+.logo_info{
+    text-align: center;
+}
+  
+  .info {
+    display: block;
+    margin-left: 0;
+  }
+
+  .info h2{
+    color: #F3860B;
+  }
+  
+  .title {
+    float: right;
+  }
+  
+  .title p {
+    text-align: right;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  td {
+    padding: 5px 0 5px 15px;
+    border: 1px solid #EEE;
+  }
+  
+  .tabletitle {
+    padding: 3px;
+    font-size: 1em;
+    background: #EEE;
+  }
+  
+  .service {
+    border-bottom: 1px solid #EEE;
+  }
+  
+  .item {
+    width: 24mm;
+  }
+  
+  .itemtext {
+    font-size: 0.5em;
+  }
+  
+  #legalcopy {
+    margin-top: 5mm;
+  }
+  
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  

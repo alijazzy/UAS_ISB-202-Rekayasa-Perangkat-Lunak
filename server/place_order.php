@@ -44,11 +44,11 @@ if (!isset($_SESSION['logged_in'])) {
             $order_date = date('Y-m-d');
 
             // 4. Store each single item to the order item in database
-            $query_order_items = "INSERT INTO sewa (ID_Member, ID_Buku, Tanggal_Pinjam, Tanggal_Kembali) 
-                        VALUES (?, ?, ?, ?)";
+            $query_order_items = "INSERT INTO sewa (ID_Transaksi, ID_Member, ID_Buku, Tanggal_Pinjam, Tanggal_Kembali) 
+                        VALUES (?, ?, ?, ?, ?)";
 
             $stmt_order_items = $conn->prepare($query_order_items);
-            $stmt_order_items->bind_param('isss', $member_id, $book_id, $order_date, $return_date);
+            $stmt_order_items->bind_param('iisss', $id_transaksi, $member_id, $book_id, $order_date, $return_date);
             $stmt_order_items->execute();
 
             // 4.2 Update status ketersediaan buku

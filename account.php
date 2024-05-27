@@ -10,6 +10,7 @@ if (!isset($_SESSION['logged_in'])) {
 if (isset($_GET['logout'])) {
     if (isset($_SESSION['logged_in'])) {
         unset($_SESSION['logged_in']);
+        unset($_SESSION['member_id']);
         unset($_SESSION['member_email']);
         unset($_SESSION['member_name']);
         unset($_SESSION['member_photo']);
@@ -202,6 +203,7 @@ include('layouts/header.php');
                                 <th>Start Date</th>
                                 <th>Return Date</th>
                                 <th>Denda</th>
+                                <th>Invoice</th>
                                 <th>Extend</th>
                             </tr>
                         </thead>
@@ -259,6 +261,11 @@ include('layouts/header.php');
                                             <h5><?php echo $penalty > 0 ? 'Rp' . number_format($penalty, 2, ',', '.') : 'No Penalty'; ?></h5>
                                         </div>
                                     </td>
+                                    <td class="product__cart__item">
+                                        <a href="struk.php">
+                                            <button class="btn btn-outline-info">Invoice</button>
+                                        </a>
+                                    </td>
                                     <td class="cart__price">
                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#extendModal" data-order-id="<?php echo $order['ID_Sewa']; ?>" data-return-date="<?php echo $order['Tanggal_Kembali']; ?>" data-book-id="<?php echo $order['ID_Buku']; ?>" data-penalty="<?php echo $penalty; ?>" data-late-days="<?php echo $late_days; ?>">
                                             Extend
@@ -286,7 +293,7 @@ include('layouts/header.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="extend-rental.php">
+            <form method="POST" action="payment.php?order_status=extend">
                 <div class="modal-body">
                     <input type="hidden" id="order_id" name="id_sewa">
                     <input type="hidden" id="book_id" name="book_id">

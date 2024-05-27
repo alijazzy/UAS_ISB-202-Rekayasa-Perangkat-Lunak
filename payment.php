@@ -1,8 +1,5 @@
 <?php
 session_start();
-
-$id_transaksi = $_SESSION['id_transaksi'];
-
 ?>
 
 <?php
@@ -37,19 +34,23 @@ include('layouts/header.php');
                 <div class="col-lg-8 col-md-6">
                     <div class="checkout__input">
                         <h6 class="coupon__code"><span class="icon_tag_alt"></span>
-                            <?php if (isset($_POST['order_status'])) {
-                                echo $_POST['order_status'];
-                            } ?>
+                            Tes
                         </h6>
 
-                        <?php if (isset($_GET['order_status']) && $_GET['order_status'] == "placed") { ?>
-                            <?php $amount = strval($_SESSION['total_amount']); ?>
-                            <?php $id_transaksi = $_SESSION['id_transaksi']; ?>
-                            <h6 class="checkout__title">TOTAL PAYMENT: <?php echo "Rp. " . number_format($_SESSION['total_amount']); ?></h6>
+                        <?php if (isset($_GET['order_status']) && $_GET['order_status'] == "extend") { ?>
+                            <?php 
+                            $amount = $_POST['total_price']; 
+                            $id_sewa = $_POST['id_sewa']; 
+                            $book_id = $_POST['book_id']; 
+                            $new_return_date = $_POST['new_return_date']; 
+                            ?>
+                            <h6 class="checkout__title">TOTAL PAYMENT: <?php echo "Rp. " . number_format($amount); ?></h6>
                             <div id="paypal-button-container"></div>
                         <?php } else if (isset($_SESSION['total_amount']) && $_SESSION['total_amount'] != 0) { ?>
-                            <?php $amount = strval($_SESSION['total_amount']); ?>
-                            <?php $id_transaksi = $_SESSION['id_transaksi']; ?>
+                            <?php 
+                            $amount = strval($_SESSION['total_amount']); 
+                            $id_transaksi = $_SESSION['id_transaksi']; 
+                            ?>
                             <h6 class="checkout__title">TOTAL PAYMENT: <?php echo "Rp. " . number_format($_SESSION['total_amount']); ?></h6>
                             <div id="paypal-button-container"></div>
                         <?php } else { ?>
@@ -87,7 +88,16 @@ include('layouts/header.php');
                 alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
 
                 // Redirect to complete_payment.php with id_transaksi
-                window.location.href = "server/complete_payment.php?id_transaksi=" + <?php echo $id_transaksi; ?>;
+                <?php if (isset($_GET['order_status']) && $_GET['order_status'] == 'extend') { 
+                    $_SESSION['id_sewa'] = $id_sewa;
+                    $_SESSION['book_id'] = $book_id;
+                    $_SESSION['new_return_date'] = $new_return_date;
+                    ?>
+                    window.location.href = "extend-rental.php";
+                <?php } else { ?>
+                    window.location.href = "server/complete_payment.php?id_transaksi=" + <?php echo $id_transaksi; ?>
+                    + "&kode_unik=" + transaction.id;
+                <?php } ?>
             });
         }
     }).render('#paypal-button-container');
