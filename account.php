@@ -13,8 +13,7 @@ if (isset($_GET['logout'])) {
         unset($_SESSION['member_email']);
         unset($_SESSION['member_name']);
         unset($_SESSION['member_photo']);
-        unset($_SESSION['cart']);
-        header('location: index.php');
+        header('location: logout.php');
         exit;
     }
 }
@@ -72,110 +71,62 @@ include('layouts/header.php');
 </nav>
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-option">
-    <div class="container">
-        <ol class="breadcrumb container px-3 py-2 rounded mb-4">
-            <div class="breadcrumb_item">
-                <a href="index.php">Home</a>
-                <a>></a>
-                <a href="books.php">Account</a>
-            </div>
-        </ol>
-    </div>
-</section>
+<nav class="mt-4 rounded" aria-label="breadcrumb">
+    <ol class="breadcrumb container px-3 py-2 rounded mb-4">
+        <div class="breadcrumb_item">
+            <a href="index.php">Home</a>
+            <a>></a>
+            <span>Account</span>
+        </div>
+    </ol>
+</nav>
 <!-- Breadcrumb Section End -->
 
 <!-- Checkout Section Begin -->
-<section class="checkout spad">
-    <div class="container">
-        <div class="checkout__form">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <form id="account-form" method="POST" action="account.php">
-                        <?php if (isset($_GET['success'])) { ?>
-                            <div class="alert alert-info" role="alert">
-                                <?php if (isset($_GET['success'])) {
-                                    echo $_GET['success'];
-                                } ?>
-                            </div>
-                        <?php } ?>
-                        <?php if (isset($_GET['error'])) { ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?php if (isset($_GET['error'])) {
-                                    echo $_GET['error'];
-                                } ?>
-                            </div>
-                        <?php } ?>
-
-                        <?php
-                        if (isset($_GET['success'])) { ?>
-                            <div class="alert alert-info" role="alert">
-                                <?php echo $_GET['success']; ?>
-                            </div>
-                        <?php } ?>
-
-                        <?php if (isset($_GET['error'])) { ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?php echo $_GET['error']; ?>
-                            </div>
-                        <?php } ?>
-
-                        <h6 class="checkout__title">Change Password</h6>
-                        <div class="checkout__input">
-                            <p>Password</p>
-                            <input type="password" id="account-password" name="password">
-                        </div>
-                        <div class="checkout__input">
-                            <p>Confirm Password</p>
-                            <input type="password" id="account-confirm-password" name="confirm_password">
-                        </div>
-                        <div class="checkout__input">
-                            <input type="submit" class="site-btn" id="change-password-btn" name="change_password" value="CHANGE PASSWORD" />
-                        </div>
-                    </form>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <?php if (isset($_GET['message'])) { ?>
-                        <div class="alert alert-info" role="alert">
-                            <?php if (isset($_GET['message'])) {
-                                echo $_GET['message'];
-                            } ?>
-                        </div>
-                    <?php } ?>
-                    <div class="checkout__order">
-                        <h4 class="order__title">Account Info</h4>
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
-                                <img src="<?php echo 'img/profile/' . $_SESSION['member_photo']; ?>" alt="" class="rounded-circle img-responsive" />
-                            </div>
-                            <div class="col-sm-6 col-md-8">
-                                <h4><?php if (isset($_SESSION['member_name'])) {
-                                        echo $_SESSION['member_name'];
-                                    } ?></h4>
-                                <small><cite title="Address"><?php if (isset($_SESSION['member_address'])) {
-                                                                    echo $_SESSION['member_address'];
-                                                                } ?> <i class="fas fa-map-marker-alt"></i></cite></small>
-                                <p>
-                                    <i class="fa fa-envelope"></i> <?php if (isset($_SESSION['member_email'])) {
-                                                                        echo $_SESSION['member_email'];
-                                                                    } ?>
-                                    <br />
-                                    <i class="fa fa-phone"></i> <?php if (isset($_SESSION['member_phone'])) {
-                                                                    echo $_SESSION['member_phone'];
-                                                                } ?>
-                                </p>
-                            </div>
-                        </div>
-
-                        <h4 class="order__title"></h4>
-                        <a href="#orders" class="btn btn-primary">YOUR RENT</a>
-                        <a href="account.php?logout=1" id="logout-btn" class="btn btn-danger">LOG OUT</a>
+<div class="container-sm mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="profile-box shadow-lg">
+                <?php if (isset($_GET['message'])) { ?>
+                    <div class="alert alert-info mb-4" role="alert">
+                        <?php if (isset($_GET['message'])) {
+                            echo $_GET['message'];
+                        } ?>
                     </div>
+                <?php } ?>
+                <div class="d-flex align-items-center mb-4">
+                    <div class="profile-img mr-4">
+                        <img src="<?php echo 'img/profile/' . $_SESSION['member_photo']; ?>" alt="" class="rounded-circle">
+                    </div>
+                    <div class="profile-info">
+                        <h3 class="mb-2"><?php if (isset($_SESSION['member_name'])) {
+                                                echo $_SESSION['member_name'];
+                                            } ?></h3>
+                        <p class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i><?php if (isset($_SESSION['member_address'])) {
+                                                                                        echo $_SESSION['member_address'];
+                                                                                    } ?></p>
+                        <p class="mb-2"><i class="fa fa-envelope mr-2"></i><?php if (isset($_SESSION['member_email'])) {
+                                                                                echo $_SESSION['member_email'];
+                                                                            } ?></p>
+                        <p class="mb-0"><i class="fa fa-phone mr-2"></i><?php if (isset($_SESSION['member_phone'])) {
+                                                                            echo $_SESSION['member_phone'];
+                                                                        } ?></p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="#orders" class="btn btn-primary">
+                        <i class="fas fa-boxes mr-2"></i>
+                        YOUR RENT
+                    </a>
+                    <a href="index.php" id="logout-btn" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        LOG OUT
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 <!-- Checkout Section End -->
 
 <!-- Order History Begin -->
@@ -339,7 +290,6 @@ include('layouts/header.php');
         var returnDate = button.data('return-date');
         var bookId = button.data('book-id');
         var penalty = button.data('penalty');
-        var lateDays = button.data('late-days'); // Get late days
 
         var modal = $(this);
         modal.find('.modal-body #order_id').val(orderId);
@@ -363,27 +313,16 @@ include('layouts/header.php');
                 // Add event listener for date change
                 modal.find('.modal-body #new_return_date').on('change', function() {
                     var newReturnDate = new Date($(this).val());
+                    var today = new Date();
+                    today.setDate(today.getDate() + 1); // Add 1 day to today's date
                     var currentReturnDate = new Date(returnDate);
 
                     var additionalPrice = 0;
                     var totalPenalty = penalty;
 
-                    if (newReturnDate > currentReturnDate) {
+                    if (newReturnDate > today) {
                         var diffTime = Math.abs(newReturnDate - currentReturnDate);
                         var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                        // Check if the new return date is at least lateDays from the original return date
-                        if (diffDays < lateDays) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Invalid Extension Period',
-                                text: 'You must extend the rental period for at least ' + lateDays + ' days.',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                modal.find('.modal-body #new_return_date').val(''); // Reset the date input
-                            });
-                            return;
-                        }
 
                         additionalPrice = diffDays * rentalPricePerDay;
 
@@ -393,13 +332,21 @@ include('layouts/header.php');
                         modal.find('.modal-body #additional_price').val(additionalPrice);
                         modal.find('.modal-body #total_price').val(totalPrice);
                     } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid Extension Period',
+                            text: 'You must extend the rental period for at least 1 day from today.',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            modal.find('.modal-body #new_return_date').val(''); // Reset the date input
+                        });
                         modal.find('.modal-body #additional_price').val(0);
                         modal.find('.modal-body #total_price').val(totalPenalty);
                     }
                 });
 
-                // Trigger change event to calculate the initial price
-                modal.find('.modal-body #new_return_date').trigger('change');
+                // Do not trigger change event initially
+                // modal.find('.modal-body #new_return_date').trigger('change');
             },
             error: function() {
                 Swal.fire({
@@ -412,8 +359,6 @@ include('layouts/header.php');
         });
     });
 </script>
-
-
 
 
 
