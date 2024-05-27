@@ -34,6 +34,7 @@
     <title>Invoice</title>
 
     <link rel="stylesheet" href="css/styleStruk.css" type="text/css">
+    <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
 </head>
 <body>
 <div id="invoice-POS">
@@ -47,10 +48,10 @@
     <div class="info">
       <h2>Member Info</h2>
       <p>
-                <span class="label">Address:</span> street city, state 0000<br>
-                <span class="label">Email:</span> JohnDoe@gmail.com<br>
-                <span class="label">Phone:</span> 555-555-5555<br>
-            </p>
+        <span class="label">Address:</span> street city, state 0000<br>
+        <span class="label">Email:</span> JohnDoe@gmail.com<br>
+        <span class="label">Phone:</span> 555-555-5555<br>
+        </p>
     </div>
   </div><!--End Invoice Mid-->
   
