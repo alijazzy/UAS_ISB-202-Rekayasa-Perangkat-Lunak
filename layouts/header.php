@@ -51,7 +51,7 @@ function setRupiah($price)
             <ul>
                 <li><a href="../index.php">Home</a></li>
                 <li><a href="../about.php">About Us</a></li>
-                <li><a href="#Featured">Featured</a></li>
+                <li><a href="../Featured.php">Featured</a></li>
                 <li><a href="../books.php">Books</a></li>
             </ul>
 
