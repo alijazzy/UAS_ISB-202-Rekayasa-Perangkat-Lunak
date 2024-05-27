@@ -129,6 +129,7 @@ include('layouts/header.php');
                             <input type="hidden" name="book_price" value="<?= $book["Harga_Buku"]; ?>">
                             <input type="hidden" name="book_image" value="<?= $book["Sampul_Buku"]; ?>">
                             <input type="hidden" name="book_type" value="<?= $book["Jenis_Buku"]; ?>">
+                            <input type="hidden" name="book_genre" value="<?= $book["Kategori_Buku"]; ?>">
                             <input type="hidden" name="product_quantity" value="1">
                             <?php if ($is_logged_in): ?>
                                 <?php if ($book['Status'] == 'Tersedia'): ?>

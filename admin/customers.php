@@ -55,7 +55,7 @@ $Members = $stmt_member->get_result();
                 <?php foreach ($Members as $member) { ?>
                     <div class="container-fluid text-dark my-5 d-flex flex-row align-items-center">
                         <div class="p-2 border-dark border border-2 rounded-circle">
-                            <img class="rounded-circle object-fit-cover" title="Image_Member" src="<?php echo 'img/' . $member['Poto_Member']; ?>" alt="" width="130px" height="130px">
+                            <img class="rounded-circle object-fit-cover" title="Image_Member" src="<?php echo '../img/profile/' . $member['Poto_Member']; ?>" alt="" width="130px" height="130px">
                         </div>
                         <div class="mx-4 my-0 h-4">
                             <h5 class="my-0">
@@ -128,7 +128,7 @@ $Members = $stmt_member->get_result();
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Password_member" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="Password_member" name="Password_member" value="<?= $member['Password_member'] ?>">
+                                                <input type="password" class="form-control" id="Password_member" name="Password_member" value="<?= $member['Password_Member'] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Foto Profile</label>

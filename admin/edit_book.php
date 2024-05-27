@@ -35,12 +35,12 @@ if (isset($_POST['modify_btn'])) {
     $kategori_buku = $_POST['kategori_buku'];
     $jenis_buku = $_POST['jenis_buku'];
     $tahun_terbit = $_POST['tahun_terbit'];
-    $harga_buku = $_POST['harga_buku'];
+    $harga_buku = $_POST['harga_buku']; 
     $status = $_POST['status'];
 
     if ($_FILES['sampul_buku']['size'] > 0) {
         $sampul_buku = $_FILES['sampul_buku']['tmp_name'];
-        $image_name = str_replace(' ', '_', $judul_buku) . ".jpg";
+        $image_name = str_replace(' ', '', $judul_buku) . ".jpg";
         move_uploaded_file($sampul_buku, '../img/product/' . $image_name);
     } else {
         $image_name = $book['Sampul_Buku'];
@@ -68,10 +68,10 @@ if (isset($_POST['modify_btn'])) {
     );
 
     if ($stmt_update_book->execute()) {
-        header('location: products.php?success_modify_message=Book has been modified successfully');
+        header('location: books.php?success_modify_message=Book has been modified successfully');
         exit;
     } else {
-        header('location: products.php?error_message=Could not modify book');
+        header('location: books.php?error_message=Could not modify book');
         exit;
     }
 }
@@ -92,30 +92,30 @@ if (isset($_POST['modify_btn'])) {
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Judul Buku</label>
-                                    <input class="form-control" type="text" name="judul_buku" value="<?php echo $book['Judul_Buku']; ?>">
+                                    <input class="form-control" type="text" name="judul_buku" value="<?php echo $book['Judul_Buku']; ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Pengarang</label>
-                                    <input class="form-control" type="text" name="pengarang" value="<?php echo $book['Pengarang']; ?>">
+                                    <input class="form-control" type="text" name="pengarang" value="<?php echo $book['Pengarang']; ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Penerbit</label>
-                                    <input class="form-control" type="text" name="penerbit" value="<?php echo $book['Penerbit']; ?>">
+                                    <input class="form-control" type="text" name="penerbit" value="<?php echo $book['Penerbit']; ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Kategori Buku</label>
-                                    <input class="form-control" type="text" name="kategori_buku" value="<?php echo $book['Kategori_Buku']; ?>">
+                                    <input class="form-control" type="text" name="kategori_buku" value="<?php echo $book['Kategori_Buku']; ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Jenis Buku</label>
-                                    <select class="form-control" name="jenis_buku">
+                                    <select class="form-control" name="jenis_buku" required>
                                         <option value="Sejarah" <?php echo ($book['Jenis_Buku'] == 'Sejarah') ? 'selected' : ''; ?>>Novel</option>
                                         <option value="Fiksi" <?php echo ($book['Jenis_Buku'] == 'Fiksi') ? 'selected' : ''; ?>>Komik</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Tahun Terbit</label>
-                                    <input class="form-control" type="text" name="tahun_terbit" value="<?php echo $book['Tahun_Terbit']; ?>">
+                                    <input class="form-control" type="text" name="tahun_terbit" value="<?php echo $book['Tahun_Terbit']; ?>" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -123,18 +123,18 @@ if (isset($_POST['modify_btn'])) {
                                     <label>Cover Buku</label>
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="editImage" name="sampul_buku" aria-describedby="inputGroupFileAddon01">
-                                            <label class="custom-file-label" for="editImage">Choose file...</label>
+                                            <input type="file" class="custom-file-input" id="addImage" name="sampul_buku" aria-describedby="inputGroupFileAddon01">
+                                            <label class="custom-file-label" for="addImage" id="addImageLabel">Choose file...</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Harga Sewa Buku</label>
-                                    <input class="form-control" type="text" name="harga_buku" value="<?php echo $book['Harga_Buku']; ?>">
+                                    <input class="form-control" type="text" name="harga_buku" value="<?php echo $book['Harga_Buku']; ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Status</label>
-                                    <select class="form-control" name="status">
+                                    <select class="form-control" name="status" required>
                                         <option value="Tersedia" <?php echo ($book['Status'] == 'Tersedia') ? 'selected' : ''; ?>>Tersedia</option>
                                         <option value="Tidak Tersedia" <?php echo ($book['Status'] == 'Tidak Tersedia') ? 'selected' : ''; ?>>Tidak Tersedia</option>
                                     </select>
@@ -154,3 +154,12 @@ if (isset($_POST['modify_btn'])) {
 <!-- /.container-fluid -->
 
 <?php include('layouts/footer.php'); ?>
+
+<!-- Script to update the custom file input label -->
+<script>
+    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+        var fileName = document.getElementById("addImage").files[0].name;
+        var nextSibling = document.getElementById("addImageLabel");
+        nextSibling.innerText = fileName;
+    });
+</script>
