@@ -19,48 +19,55 @@ if (isset($_POST['create_btn'])) {
     $harga_buku = $_POST['harga_buku'];
     $status = $_POST['status'];
 
-    $sampul_buku = $_FILES['sampul_buku']['tmp_name'];
-    $image_name = str_replace(' ', '_', $judul_buku) . ".jpg";
-
-    // Check if ID_Buku already exists
-    $query_check_id = "SELECT * FROM buku WHERE ID_Buku = ?";
-    $stmt_check_id = $conn->prepare($query_check_id);
-    $stmt_check_id->bind_param('s', $ID_buku);
-    $stmt_check_id->execute();
-    $result_check_id = $stmt_check_id->get_result();
-
-    if ($result_check_id->num_rows > 0) {
-        // ID_Buku already exists
-        $error_message = "Book ID has been used";
+    // Cek apakah harga buku negatif atau bukan angka
+    if (!is_numeric($harga_buku)) {
+        $error_message = "Book prices must be numbers!";
+    } elseif ($harga_buku < 0) {
+        $error_message = "The book price cannot be negative!";
     } else {
-        // Upload gambar
-        move_uploaded_file($sampul_buku, '../img/product/' . $image_name);
+        $sampul_buku = $_FILES['sampul_buku']['tmp_name'];
+        $image_name = str_replace(' ', '_', $judul_buku) . ".jpg";
 
-        $query_insert_book = "INSERT INTO buku (ID_Buku, Judul_Buku, Pengarang, Penerbit, Kategori_Buku, 
-            Jenis_Buku, Tahun_Terbit, Sampul_Buku, Harga_Buku, Status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Check if ID_Buku already exists
+        $query_check_id = "SELECT * FROM buku WHERE ID_Buku = ?";
+        $stmt_check_id = $conn->prepare($query_check_id);
+        $stmt_check_id->bind_param('s', $ID_buku);
+        $stmt_check_id->execute();
+        $result_check_id = $stmt_check_id->get_result();
 
-        $stmt_insert_book = $conn->prepare($query_insert_book);
-        $stmt_insert_book->bind_param(
-            'ssssssssss',
-            $ID_buku,
-            $judul_buku,
-            $pengarang,
-            $penerbit,
-            $kategori_buku,
-            $jenis_buku,
-            $tahun_terbit,
-            $image_name,
-            $harga_buku,
-            $status
-        );
-
-        if ($stmt_insert_book->execute()) {
-            $_SESSION['success_create_message'] = "Book Has Created";
-            header('location: create_book.php');
-            exit;
+        if ($result_check_id->num_rows > 0) {
+            // ID_Buku already exists
+            $error_message = "Book ID has been used";
         } else {
-            $error_message = "Could not create book!";
+            // Upload gambar
+            move_uploaded_file($sampul_buku, '../img/product/' . $image_name);
+
+            $query_insert_book = "INSERT INTO buku (ID_Buku, Judul_Buku, Pengarang, Penerbit, Kategori_Buku, 
+                Jenis_Buku, Tahun_Terbit, Sampul_Buku, Harga_Buku, Status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmt_insert_book = $conn->prepare($query_insert_book);
+            $stmt_insert_book->bind_param(
+                'ssssssssss',
+                $ID_buku,
+                $judul_buku,
+                $pengarang,
+                $penerbit,
+                $kategori_buku,
+                $jenis_buku,
+                $tahun_terbit,
+                $image_name,
+                $harga_buku,
+                $status
+            );
+
+            if ($stmt_insert_book->execute()) {
+                $_SESSION['success_create_message'] = "Book Has Created";
+                header('location: create_book.php');
+                exit;
+            } else {
+                $error_message = "Could not create book!";
+            }
         }
     }
 }
@@ -174,6 +181,9 @@ if (isset($_POST['create_btn'])) {
 
 <?php include('layouts/footer.php'); ?>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Script to update the custom file input label -->
 <script>
     document.querySelector('.custom-file-input').addEventListener('change', function (e) {
@@ -181,4 +191,12 @@ if (isset($_POST['create_btn'])) {
         var nextSibling = e.target.nextElementSibling;
         nextSibling.innerText = fileName;
     });
+
+    <?php if (isset($error_message)) { ?>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '<?php echo $error_message; ?>',
+    });
+    <?php } ?>
 </script>

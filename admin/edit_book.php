@@ -35,44 +35,50 @@ if (isset($_POST['modify_btn'])) {
     $kategori_buku = $_POST['kategori_buku'];
     $jenis_buku = $_POST['jenis_buku'];
     $tahun_terbit = $_POST['tahun_terbit'];
-    $harga_buku = $_POST['harga_buku']; 
+    $harga_buku = $_POST['harga_buku'];
     $status = $_POST['status'];
 
-    if ($_FILES['sampul_buku']['size'] > 0) {
-        $sampul_buku = $_FILES['sampul_buku']['tmp_name'];
-        $image_name = str_replace(' ', '', $judul_buku) . ".jpg";
-        move_uploaded_file($sampul_buku, '../img/product/' . $image_name);
+    // Validasi harga buku
+    if (!is_numeric($harga_buku)) {
+        $error_message = "Book prices must be numbers!";
+    } elseif ($harga_buku < 0) {
+        $error_message = "The book price cannot be negative!";
     } else {
-        $image_name = $book['Sampul_Buku'];
-    }
+        if ($_FILES['sampul_buku']['size'] > 0) {
+            $sampul_buku = $_FILES['sampul_buku']['tmp_name'];
+            $image_name = str_replace(' ', '', $judul_buku) . ".jpg";
+            move_uploaded_file($sampul_buku, '../img/product/' . $image_name);
+        } else {
+            $image_name = $book['Sampul_Buku'];
+        }
 
-    $query_update_book = "UPDATE buku SET Judul_Buku = ?, Pengarang = ?, Penerbit = ?, 
-                          Kategori_Buku = ?, Jenis_Buku = ?, Tahun_Terbit = ?, 
-                          Sampul_Buku = ?, Harga_Buku = ?, Status = ?
-                          WHERE ID_Buku = ?";
+        $query_update_book = "UPDATE buku SET Judul_Buku = ?, Pengarang = ?, Penerbit = ?, 
+                              Kategori_Buku = ?, Jenis_Buku = ?, Tahun_Terbit = ?, 
+                              Sampul_Buku = ?, Harga_Buku = ?, Status = ?
+                              WHERE ID_Buku = ?";
 
-    $stmt_update_book = $conn->prepare($query_update_book);
+        $stmt_update_book = $conn->prepare($query_update_book);
 
-    $stmt_update_book->bind_param(
-        'sssssssdss',
-        $judul_buku,
-        $pengarang,
-        $penerbit,
-        $kategori_buku,
-        $jenis_buku,
-        $tahun_terbit,
-        $image_name,
-        $harga_buku,
-        $status,
-        $id_buku
-    );
+        $stmt_update_book->bind_param(
+            'sssssssdss',
+            $judul_buku,
+            $pengarang,
+            $penerbit,
+            $kategori_buku,
+            $jenis_buku,
+            $tahun_terbit,
+            $image_name,
+            $harga_buku,
+            $status,
+            $id_buku
+        );
 
-    if ($stmt_update_book->execute()) {
-        header('location: books.php?success_modify_message=Book has been modified successfully');
-        exit;
-    } else {
-        header('location: books.php?error_message=Could not modify book');
-        exit;
+        if ($stmt_update_book->execute()) {
+            header('location: books.php?success_modify_message=Book has been modified successfully');
+            exit;
+        } else {
+            $error_message = "Could not modify book";
+        }
     }
 }
 ?>
@@ -87,6 +93,11 @@ if (isset($_POST['modify_btn'])) {
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
+                    <?php if (isset($error_message)) { ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $error_message; ?>
+                        </div>
+                    <?php } ?>
                     <form id="modify-form" enctype="multipart/form-data" method="POST" action="edit_book.php?book_id=<?php echo $id_buku; ?>">
                         <div class="row">
                             <div class="col-sm-6">
@@ -155,6 +166,9 @@ if (isset($_POST['modify_btn'])) {
 
 <?php include('layouts/footer.php'); ?>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Script to update the custom file input label -->
 <script>
     document.querySelector('.custom-file-input').addEventListener('change', function (e) {
@@ -162,4 +176,12 @@ if (isset($_POST['modify_btn'])) {
         var nextSibling = document.getElementById("addImageLabel");
         nextSibling.innerText = fileName;
     });
+
+    <?php if (isset($error_message)) { ?>
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '<?php echo $error_message; ?>',
+    });
+    <?php } ?>
 </script>
