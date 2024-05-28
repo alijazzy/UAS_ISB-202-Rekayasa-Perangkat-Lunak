@@ -3,21 +3,28 @@ session_start();
 
 if (!isset($_SESSION['admin_logged_in'])) {
     header('location: login.php');
+    exit;
 }
-?>
 
-<?php include('layouts/header.php'); ?>
+include('layouts/header.php');
+include('../server/connection.php'); // Pastikan path ini benar
 
-<?php
 $query_orders = "SELECT s.ID_Sewa, s.ID_Member, m.Nama_Member, s.ID_Buku, b.Judul_Buku, s.Tanggal_Pinjam, s.Tanggal_Kembali 
                  FROM sewa s 
                  JOIN member m ON s.ID_Member = m.ID_Member 
-                 JOIN buku b ON s.ID_Buku = b.ID_Buku
+                 JOIN buku b ON s.ID_Buku = b.ID_Buku 
                  ORDER BY s.Tanggal_Pinjam DESC";
 
 $stmt_orders = $conn->prepare($query_orders);
+if (!$stmt_orders) {
+    die("Query preparation failed: " . $conn->error);
+}
+
 $stmt_orders->execute();
 $rents = $stmt_orders->get_result();
+if (!$rents) {
+    die("Query execution failed: " . $stmt_orders->error);
+}
 ?>
 
 <!-- Begin Page Content -->
@@ -43,16 +50,6 @@ $rents = $stmt_orders->get_result();
                     <?php echo $_GET['success_status']; ?>
                 </div>
             <?php } ?>
-            <?php if (isset($_GET['success_delete_message'])) { ?>
-                <div class="alert alert-info" role="alert">
-                    <?php echo $_GET['success_delete_message']; ?>
-                </div>
-            <?php } ?>
-            <?php if (isset($_GET['fail_delete_message'])) { ?>
-                <div class="alert alert-danger" role="alert">
-                    <?php echo $_GET['fail_delete_message']; ?>
-                </div>
-            <?php } ?>
             <?php if (isset($_GET['fail_status'])) { ?>
                 <div class="alert alert-danger" role="alert">
                     <?php echo $_GET['fail_status']; ?>
@@ -73,7 +70,7 @@ $rents = $stmt_orders->get_result();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($rents as $rent) { ?>
+                        <?php while ($rent = $rents->fetch_assoc()) { ?>
                             <tr>
                                 <td><?php echo $rent['ID_Sewa']; ?></td>
                                 <td><?php echo $rent['ID_Member']; ?></td>
@@ -86,6 +83,9 @@ $rents = $stmt_orders->get_result();
                                     <a href="#" class="btn btn-danger btn-circle delete-rent" data-id="<?php echo $rent['ID_Sewa']; ?>">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
+                                    <button class="btn btn-warning btn-circle notify-btn" data-id-member="<?php echo $rent['ID_Member']; ?>">
+                                        <i class="fas fa-bell"></i>
+                                    </button>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -96,6 +96,70 @@ $rents = $stmt_orders->get_result();
     </div>
 
 </div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<?php include('layouts/footer.php'); ?>
+
+<!-- jQuery is required for AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.notify-btn').on('click', function() {
+            var idMember = $(this).data('id-member');
+            $.ajax({
+                url: 'notification.php', // Pastikan path ini benar
+                method: 'POST',
+                data: {
+                    id_member: idMember
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (Array.isArray(response)) {
+                        response.forEach(function(res) {
+                            if (res.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: res.message,
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: res.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Unexpected response format.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + error,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 <script>
     // Select all delete-rent buttons
     document.querySelectorAll('.delete-rent').forEach(item => {
@@ -121,9 +185,3 @@ $rents = $stmt_orders->get_result();
         });
     });
 </script>
-
-<!-- /.container-fluid -->
-
-</div>
-<!-- End of Main Content -->
-<?php include('layouts/footer.php'); ?>

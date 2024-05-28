@@ -120,9 +120,8 @@ include('layouts/header.php');
                         <i class="fas fa-boxes mr-2"></i>
                         YOUR RENT
                     </a>
-                    <a href="index.php" id="logout-btn" class="btn btn-danger">
-                        <i class="fas fa-sign-out-alt mr-2"></i>
-                        LOG OUT
+                    <a href="account.php?logout=1">
+                        <button id="logout-btn" class="btn btn-danger" name="logout" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>LOG OUT</button>
                     </a>
                 </div>
             </div>
@@ -298,7 +297,6 @@ include('layouts/header.php');
         var returnDate = button.data('return-date');
         var bookId = button.data('book-id');
         var penalty = button.data('penalty');
-        var lateDays = button.data('late-days'); // Get late days
 
         var modal = $(this);
         modal.find('.modal-body #order_id').val(orderId);
@@ -322,27 +320,16 @@ include('layouts/header.php');
                 // Add event listener for date change
                 modal.find('.modal-body #new_return_date').on('change', function() {
                     var newReturnDate = new Date($(this).val());
+                    var today = new Date();
+                    today.setDate(today.getDate() + 1); // Add 1 day to today's date
                     var currentReturnDate = new Date(returnDate);
 
                     var additionalPrice = 0;
                     var totalPenalty = penalty;
 
-                    if (newReturnDate > currentReturnDate) {
+                    if (newReturnDate > today) {
                         var diffTime = Math.abs(newReturnDate - currentReturnDate);
                         var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                        // Check if the new return date is at least lateDays from the original return date
-                        if (diffDays < lateDays) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Invalid Extension Period',
-                                text: 'You must extend the rental period for at least ' + lateDays + ' days.',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                modal.find('.modal-body #new_return_date').val(''); // Reset the date input
-                            });
-                            return;
-                        }
 
                         additionalPrice = diffDays * rentalPricePerDay;
 
@@ -352,13 +339,21 @@ include('layouts/header.php');
                         modal.find('.modal-body #additional_price').val(additionalPrice);
                         modal.find('.modal-body #total_price').val(totalPrice);
                     } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid Extension Period',
+                            text: 'You must extend the rental period for at least 1 day from today.',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            modal.find('.modal-body #new_return_date').val(''); // Reset the date input
+                        });
                         modal.find('.modal-body #additional_price').val(0);
                         modal.find('.modal-body #total_price').val(totalPenalty);
                     }
                 });
 
-                // Trigger change event to calculate the initial price
-                modal.find('.modal-body #new_return_date').trigger('change');
+                // Do not trigger change event initially
+                // modal.find('.modal-body #new_return_date').trigger('change');
             },
             error: function() {
                 Swal.fire({
@@ -371,10 +366,6 @@ include('layouts/header.php');
         });
     });
 </script>
-
-
-
-
 
 <?php
 include('layouts/footer.php');
