@@ -33,11 +33,11 @@
         <div class="about_tag">
             <h1>About Us</h1>
             <p>
-            PITIMOSS Fun Library adalah sebuah perpustakaan modern atau lebih akrab dikenal dengan istilah taman bacaan. 
-            Didirikan karna kecintaan para pendirinya terhadap dunia baca dan buku agar kecintaan terhadap buku dan kegemaran 
-            membaca bisa di tularkan pada semua lapisan masyarakat karena mereka sangat menyadari akan pentingnya kebiasaan 
-            membaca dalam meningkatkan kualitas hidup bangsa, khususnya generasi muda. Dengan cara memudahkan akses terhadap 
-            koleksi buku yang memadai untuk siapapun tanpa dibatasi usia, golongan, tempat dan lain-lain.
+            PITIMOSS Fun Library is a modern library or more familiarly known as a "Taman Bacaan". 
+            It was founded because of the founder's love for the world of reading and books to encourage a love for books and reading
+            hobbies to be transmitted to all levels of society, because they are very aware of the importance of habits 
+            reading in improving the quality of life of the nation, especially the younger generation. By making it easier to access 
+            an adequate collection of books for anyone without restrictions on age, class, place and so on.
             </p>
             <a href="about.php" class="about_btn">Learn More</a>
         </div>
@@ -138,7 +138,7 @@
                 <div class="col-lg-4">
                     <div class="instagram__text">
                         <h2>Instagram</h2>
-                        <p>Kunjungi instagram kami untuk mendapatkan info terbaru dan menarik terkait ketersediaan buku.</p>
+                        <p>Visit our Instagram to get the latest and interesting information regarding our book collections.</p>
                         <h3>#Salam_Literasi</h3>
                     </div>
                 </div>

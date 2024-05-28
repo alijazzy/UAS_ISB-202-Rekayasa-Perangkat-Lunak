@@ -56,7 +56,6 @@ function setRupiah($price)
             </ul>
 
             <div class="social_icon">
-                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
                 <a href="../account.php"><img src="img/icon/user.png" alt=""></a>
                 <a href="../shopping-cart.php"><img src="img/icon/cart.png" alt=""></a>
             </div>

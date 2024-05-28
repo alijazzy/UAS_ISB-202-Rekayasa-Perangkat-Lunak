@@ -35,7 +35,7 @@ include('layouts/header.php');
                     <div class="checkout__input">
                         <h6 class="coupon__code"><span><i class="fa-solid fa-calendar"></i></span>
                         <?php if (isset($_GET['order_status']) && $_GET['order_status'] == "extend") { ?>
-                            Return Date: <span><?php echo $_SESSION['new_return_date']; ?></span>
+                            Return Date: <span><?php echo $_POST['new_return_date']; ?></span>
                         <?php } else { ?>
                             Return Date: <span><?php echo $_SESSION['return_date']; ?></span>
                         <?php } ?>

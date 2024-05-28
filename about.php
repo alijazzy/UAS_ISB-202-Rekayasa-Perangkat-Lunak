@@ -53,7 +53,7 @@ include('layouts/header.php');
                         <div class="mb-1 text-muted">Now</div>
 
                         <p class="card-text mb-auto about_story">Check out this week's recommended books! Explore captivating stories and expand your reading list. Don't miss out!</p>
-                        <a href="index.php">Go to Recomendation</a>
+                        <a href="Featured.php">Go to Recomendation</a>
 
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" src="img/instagram/instagram-3.jpg" alt="Card image cap" style="width: 200px; height: 250px;" </div>

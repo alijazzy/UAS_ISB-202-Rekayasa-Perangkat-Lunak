@@ -20,29 +20,6 @@ if (isset($_GET['logout'])) {
     }
 }
 
-if (isset($_POST['change_password'])) {
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    $email = $_SESSION['member_email'];
-
-    if ($password !== $confirm_password) {
-        header('location: account.php?error=Password did not match');
-    } else if (strlen($password) < 6) {
-        header('location: account.php?error=Password must be at least 6 characters');
-    } else {
-        $query_change_password = "UPDATE users SET Password = ? WHERE Email = ?";
-
-        $stmt_change_password = $conn->prepare($query_change_password);
-        $stmt_change_password->bind_param('ss', md5($password), $email);
-
-        if ($stmt_change_password->execute()) {
-            header('location: account.php?success=Password has been updated successfully');
-        } else {
-            header('location: account.php?error=Could not update password');
-        }
-    }
-}
-
 // Get Orders by User Login
 if (isset($_SESSION['logged_in'])) {
     $member_id = $_SESSION['member_id'];

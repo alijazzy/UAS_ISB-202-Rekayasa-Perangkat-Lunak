@@ -2,83 +2,77 @@
 session_start();
 include('server/connection.php');
 
-// if (isset($_SESSION['logged_in'])) {
-//     header('location: index.php');
-//     exit;
-// }
-
 if (isset($_POST['register_btn'])) {
-    // Periksa apakah data dari kedua form sudah terisi
+    // Ensure all required fields are filled
     if (isset($_POST['username'], $_POST['email'], $_POST['password'], $_POST['address'], $_POST['phone'])) {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $address = $_POST['address'];
         $phone = $_POST['phone'];
+        
+        // Handle the file upload
+        $photo_temp = $_FILES['photo']['tmp_name']; // Foto sementara
+        $photo_name = $_FILES['photo']['name']; // Nama foto asli
 
-        // Foto Profile
-        $photo = $_FILES['photo']['tmp_name'];
-        $photo_name = $_FILES['photo']['name'];
+        // Ambil ekstensi file
         $photo_extension = pathinfo($photo_name, PATHINFO_EXTENSION);
-        $new_photo_name = uniqid() . '_' . time() . '.' . $photo_extension; 
-        $photo_destination = "../img/profile/" . $new_photo_name;
-        move_uploaded_file($photo, $photo_destination);
 
-        // Cek apakah email sudah terdaftar sebelumnya
-        $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ?";
-        $stmt_check_user = $conn->prepare($query_check_user);
-        $stmt_check_user->bind_param('s', $email);
-        $stmt_check_user->execute();
-        $stmt_check_user->bind_result($num_rows);
-        $stmt_check_user->fetch();
-        $stmt_check_user->close();
+        // Ganti nama file dengan nama username (tanpa spasi dan karakter khusus) + ekstensi file
+        $new_photo_name = $username . '.' . $photo_extension;
 
-        // Jika ada email yang sama
-        if ($num_rows !== 0) {
-            header('location: Register.php?error=User with this email already exists');
-            exit;
-        }
+        // Tentukan path baru untuk menyimpan foto
+        $path = "img/profile/" . $new_photo_name;
 
-        $photo = $_FILES['photo']['tmp_name'];
-        $photo_name = $_FILES['photo']['name'];
-        $photo_extension = pathinfo($photo_name, PATHINFO_EXTENSION);
-        $new_photo_name = $photo_name; // Menggunakan nama file asli
-        $photo_destination = "../img/profile/" . $new_photo_name;
-        move_uploaded_file($photo, $photo_destination);
+        if (move_uploaded_file($photo_temp, $path)) {
+            // Check if email already exists
+            $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ?";
+            $stmt_check_user = $conn->prepare($query_check_user);
+            $stmt_check_user->bind_param('s', $email);
+            $stmt_check_user->execute();
+            $stmt_check_user->bind_result($num_rows);
+            $stmt_check_user->fetch();
+            $stmt_check_user->close();
 
-        // Simpan data user ke database
-        $query_save_user = "INSERT INTO member (Nama_Member, Email, Password_Member, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt_save_user = $conn->prepare($query_save_user);
-        $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
+            if ($num_rows !== 0) {
+                header('location: Register.php?error=User with this email already exists');
+                exit;
+            }
 
-        if ($stmt_save_user->execute()) {
-            // Mendapatkan ID member yang baru ditambahkan
-            $new_member_id = $stmt_save_user->insert_id;
+            // Insert new user data into the database
+            $query_save_user = "INSERT INTO member (Nama_Member, Email, Password_Member, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt_save_user = $conn->prepare($query_save_user);
+            $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
 
-            // Memperbarui nama file dalam database
-            $query_update_photo_name = "UPDATE member SET Poto_Member = ? WHERE ID_Member = ?";
-            $stmt_update_photo_name = $conn->prepare($query_update_photo_name);
-            $stmt_update_photo_name->bind_param('si', $new_photo_name, $new_member_id);
-            $stmt_update_photo_name->execute();
-            $stmt_update_photo_name->close();
-
-            $_SESSION['user_email'] = $email;
-            $_SESSION['logged_in'] = true;
-            $_SESSION['member_id'] = $new_member_id;
-            
-            header('location: login.php?register_success=You registered successfully!');
-            exit;
+            if ($stmt_save_user->execute()) {
+                // Get the newly inserted member ID
+                $new_member_id = $stmt_save_user->insert_id;
+                
+                // Set session variables and redirect to login with success message
+                $_SESSION['member_email'] = $email;
+                $_SESSION['logged_in'] = true;
+                $_SESSION['member_id'] = $new_member_id;
+                $_SESSION['member_address'] = $address;
+                $_SESSION['member_phone'] = $phone;
+                $_SESSION['member_photo'] = $new_photo_name;
+                
+                header('location: login.php?register_success=You registered successfully!');
+                exit;
+            } else {
+                header('location: Register.php?error=Could not create an account at the moment');
+                exit;
+            }
         } else {
-            header('location: Register.php?error=Could not create an account at the moment');
+            header('location: Register.php?error=Failed to upload photo');
             exit;
         }
     } else {
-        // Jika ada data yang kosong, arahkan kembali ke halaman register dengan pesan galat
         header('location: Register.php?error=Please fill in all the fields');
         exit;
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
