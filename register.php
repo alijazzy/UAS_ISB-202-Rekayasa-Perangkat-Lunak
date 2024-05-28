@@ -94,6 +94,8 @@ if (isset($_POST['register_btn'])) {
     <link href="admin/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="admin/css/styleRegister.css" rel="stylesheet">
 
+    <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
+
 </head>
 
 <body>
