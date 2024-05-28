@@ -214,7 +214,7 @@ include('layouts/header.php');
                                         </div>
                                     </td>
                                     <td class="product__cart__item">
-                                        <a href="struk.php">
+                                        <a href="struk.php?id_sewa=<?php echo $order['ID_Sewa']; ?>">
                                             <button class="btn btn-outline-info">Invoice</button>
                                         </a>
                                     </td>

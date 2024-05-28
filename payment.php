@@ -33,8 +33,12 @@ include('layouts/header.php');
             <div class="row">
                 <div class="col-lg-8 col-md-6">
                     <div class="checkout__input">
-                        <h6 class="coupon__code"><span class="icon_tag_alt"></span>
-                            Tes
+                        <h6 class="coupon__code"><span><i class="fa-solid fa-calendar"></i></span>
+                        <?php if (isset($_GET['order_status']) && $_GET['order_status'] == "extend") { ?>
+                            Return Date: <span><?php echo $_SESSION['new_return_date']; ?></span>
+                        <?php } else { ?>
+                            Return Date: <span><?php echo $_SESSION['return_date']; ?></span>
+                        <?php } ?>
                         </h6>
 
                         <?php if (isset($_GET['order_status']) && $_GET['order_status'] == "extend") { ?>
