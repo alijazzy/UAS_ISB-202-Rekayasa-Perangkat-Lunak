@@ -15,38 +15,16 @@ if (isset($_POST['register_btn'])) {
         $photo_temp = $_FILES['photo']['tmp_name']; // Foto sementara
         $photo_name = $_FILES['photo']['name']; // Nama foto asli
 
-        // Foto Profile
-        $photo = $_FILES['photo']['tmp_name'];
-        $photo_name = basename($_FILES['photo']['name']);
+        // Ambil ekstensi file
         $photo_extension = pathinfo($photo_name, PATHINFO_EXTENSION);
-        $photo_directory = __DIR__ . "/../img/profile/";
-        $photo_destination = $photo_directory . $photo_name;
 
-        // Ensure the directory exists
-        if (!is_dir($photo_directory)) {
-            if (!mkdir($photo_directory, 0755, true)) {
-                echo "<script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Directory Error',
-                            text: 'Failed to create directory for profile photos.'
-                        });
-                    });
-                </script>";
-                exit;
-            }
-        }
+        // Ganti nama file dengan nama username (tanpa spasi dan karakter khusus) + ekstensi file
+        $new_photo_name = $username . '.' . $photo_extension;
 
-        // Jika nama file sudah ada, tambahkan angka untuk membuatnya unik
-        $i = 1;
-        while (file_exists($photo_destination)) {
-            $photo_name = pathinfo($_FILES['photo']['name'], PATHINFO_FILENAME) . "_$i." . $photo_extension;
-            $photo_destination = $photo_directory . $photo_name;
-            $i++;
-        }
+        // Tentukan path baru untuk menyimpan foto
+        $path = "img/profile/" . $new_photo_name;
 
-        if (move_uploaded_file($photo, $photo_destination)) {
+        if (move_uploaded_file($photo_temp, $path)) {
             // Cek apakah email atau nomor telepon sudah terdaftar sebelumnya
             $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ? OR Nomor_Telepon = ?";
             $stmt_check_user = $conn->prepare($query_check_user);
@@ -69,13 +47,17 @@ if (isset($_POST['register_btn'])) {
                 </script>";
             } else {
                 // Simpan data user ke database
-                $query_save_user = "INSERT INTO member (Nama_Member, Email, Password, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
+                $query_save_user = "INSERT INTO member (Nama_Member, Email, Password_Member, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt_save_user = $conn->prepare($query_save_user);
-                $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $photo_name);
+                $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
 
                 if ($stmt_save_user->execute()) {
-                    $_SESSION['user_email'] = $email;
+                    $_SESSION['member_email'] = $email;
                     $_SESSION['logged_in'] = true;
+                    $_SESSION['member_id'] = $new_member_id;
+                    $_SESSION['member_address'] = $address;
+                    $_SESSION['member_phone'] = $phone;
+                    $_SESSION['member_photo'] = $new_photo_name;
                     header('location: login.php?register_success=You registered successfully!');
                     exit;
                 } else {
