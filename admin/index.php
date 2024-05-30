@@ -30,7 +30,7 @@
     $stmt_total_paid->store_result();
     $stmt_total_paid->fetch();
 
-    $query_total_not_paid = "SELECT COUNT(*) AS total__not_paid FROM transaksi WHERE Status_Pembayaran = 'TIDAK LUNAS'";
+    $query_total_not_paid = "SELECT COUNT(*) AS total__not_paid FROM transaksi WHERE Status_Pembayaran = 'Belum Lunas'";
     $stmt_total_not_paid = $conn->prepare($query_total_not_paid);
     $stmt_total_not_paid->execute();
     $stmt_total_not_paid->bind_result($total_not_paid);
@@ -79,7 +79,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Total Income</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php if (isset($total_payments)) { echo "Rp ".$total_payments; } ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php if (isset($total_payments)) { echo "Rp. ". number_format($total_payments); } ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>

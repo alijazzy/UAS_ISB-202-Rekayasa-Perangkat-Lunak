@@ -3,13 +3,17 @@ session_start();
 include('server/connection.php');
 
 if (isset($_POST['register_btn'])) {
-    // Periksa apakah data dari kedua form sudah terisi
+    // Ensure all required fields are filled
     if (isset($_POST['username'], $_POST['email'], $_POST['password'], $_POST['address'], $_POST['phone'])) {
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $address = $_POST['address'];
         $phone = $_POST['phone'];
+        
+        // Handle the file upload
+        $photo_temp = $_FILES['photo']['tmp_name']; // Foto sementara
+        $photo_name = $_FILES['photo']['name']; // Nama foto asli
 
         // Foto Profile
         $photo = $_FILES['photo']['tmp_name'];
@@ -112,6 +116,7 @@ if (isset($_POST['register_btn'])) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -134,6 +139,9 @@ if (isset($_POST['register_btn'])) {
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+    <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
+
 </head>
 
 <body>

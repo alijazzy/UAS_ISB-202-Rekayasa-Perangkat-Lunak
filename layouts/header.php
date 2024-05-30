@@ -1,4 +1,12 @@
+<?php
+$kurs_dollar = 15502;
 
+function setRupiah($price)
+{
+    $result = "Rp" . number_format($price, 0, ',', '.');
+    return $result;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -30,7 +38,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
-
 </head>
 
 <body>
@@ -44,12 +51,11 @@
             <ul>
                 <li><a href="../index.php">Home</a></li>
                 <li><a href="../about.php">About Us</a></li>
-                <li><a href="#Featured">Featured</a></li>
+                <li><a href="../Featured.php">Featured</a></li>
                 <li><a href="../books.php">Books</a></li>
             </ul>
 
             <div class="social_icon">
-                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
                 <a href="../account.php"><img src="img/icon/user.png" alt=""></a>
                 <a href="../shopping-cart.php"><img src="img/icon/cart.png" alt=""></a>
             </div>

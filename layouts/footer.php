@@ -17,7 +17,7 @@
                         <h6>Follow Us</h6>
                     <div class="footer__widget-social">
                         <a href="https://www.facebook.com/pitimoss/"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="https://x.com/pitimoss"><i class="fa-brands fa-twitter"></i></a>
                         <a href="https://www.instagram.com/pitimoss/"><i class="fa-brands fa-instagram"></i></a>
                     </div>
                     </div>
