@@ -140,7 +140,7 @@ include('layouts/header.php');
                                 <?php if ($book['Status'] == 'Tersedia'): ?>
                                     <button type="submit" class="btn btn-outline btn-sm" name="sewa" style="background-color:#F3860B;color:white">Rent Now</button>
                                 <?php else: ?>
-                                    <button type="button" class="btn btn-outline-danger btn-sm">Unavailable</button>
+                                    <button type="button" class="btn btn-danger btn-sm">Unavailable</button>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <button type="button" class="btn btn-outline btn-sm" data-toggle="modal" data-target="#loginModal" style="background-color:#F3860B;color:white">Rent Now</button>

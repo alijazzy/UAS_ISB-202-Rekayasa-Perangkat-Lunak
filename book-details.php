@@ -94,8 +94,8 @@
                         <button type="button" class="btn-add-to-cart" data-toggle="modal" data-target="#loginModal"><i class="fa-solid fa-cart-shopping"></i>Add to cart</button>
                     <?php endif; ?>
                 <?php else: ?>
-                    <a href="books.php">
-                        <button type="button" class="btn btn-outline-danger button-icon"><i class="fa-solid fa-circle-exclamation"></i>Unavailable</button>
+                    <a>
+                        <button type="button" class="btn btn-danger button-icon"><i class="fa-solid fa-circle-exclamation"></i>Unavailable</button>
                     </a>
                 <?php endif; ?>            
             </div>
