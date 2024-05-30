@@ -10,11 +10,9 @@ if (!isset($_SESSION['logged_in'])) {
 if (isset($_GET['logout'])) {
     if (isset($_SESSION['logged_in'])) {
         unset($_SESSION['logged_in']);
-        unset($_SESSION['member_id']);
         unset($_SESSION['member_email']);
         unset($_SESSION['member_name']);
         unset($_SESSION['member_photo']);
-        unset($_SESSION['cart']);
         header('location: index.php');
         exit;
     }
@@ -61,6 +59,14 @@ if (isset($_SESSION['total'])) {
     $total_bayar = $_SESSION['total'];
 }
 ?>
+<?php
+$query = "SELECT * FROM member WHERE ID_Member = ?";
+
+$stmt_member = $conn->prepare($query);
+$stmt_member->bind_param('i', $member_id);
+$stmt_member->execute();
+$Members = $stmt_member->get_result();
+?>
 
 <?php
 include('layouts/header.php');
@@ -73,111 +79,101 @@ include('layouts/header.php');
 </nav>
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-option">
-    <div class="container">
-        <ol class="breadcrumb container px-3 py-2 rounded mb-4">
-            <div class="breadcrumb_item">
-                <a href="index.php">Home</a>
-                <a>></a>
-                <a href="books.php">Account</a>
-            </div>
-        </ol>
-    </div>
-</section>
+<nav class="mt-4 rounded" aria-label="breadcrumb">
+    <ol class="breadcrumb container px-3 py-2 rounded mb-4">
+        <div class="breadcrumb_item">
+            <a href="index.php">Home</a>
+            <a>></a>
+            <span>Account</span>
+        </div>
+    </ol>
+</nav>
 <!-- Breadcrumb Section End -->
 
 <!-- Checkout Section Begin -->
-<section class="checkout spad">
-    <div class="container">
-        <div class="checkout__form">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <form id="account-form" method="POST" action="account.php">
-                        <?php if (isset($_GET['success'])) { ?>
-                            <div class="alert alert-info" role="alert">
-                                <?php if (isset($_GET['success'])) {
-                                    echo $_GET['success'];
-                                } ?>
-                            </div>
-                        <?php } ?>
-                        <?php if (isset($_GET['error'])) { ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?php if (isset($_GET['error'])) {
-                                    echo $_GET['error'];
-                                } ?>
-                            </div>
-                        <?php } ?>
-
-                        <?php
-                        if (isset($_GET['success'])) { ?>
-                            <div class="alert alert-info" role="alert">
-                                <?php echo $_GET['success']; ?>
-                            </div>
-                        <?php } ?>
-
-                        <?php if (isset($_GET['error'])) { ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?php echo $_GET['error']; ?>
-                            </div>
-                        <?php } ?>
-
-                        <h6 class="checkout__title">Change Password</h6>
-                        <div class="checkout__input">
-                            <p>Password</p>
-                            <input type="password" id="account-password" name="password">
-                        </div>
-                        <div class="checkout__input">
-                            <p>Confirm Password</p>
-                            <input type="password" id="account-confirm-password" name="confirm_password">
-                        </div>
-                        <div class="checkout__input">
-                            <input type="submit" class="site-btn" id="change-password-btn" name="change_password" value="CHANGE PASSWORD" />
-                        </div>
-                    </form>
-                </div>
-                <div class="col-lg-6 col-md-6">
+<?php foreach ($Members as $member) { ?>
+    <div class="container-sm mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="profile-box shadow-lg">
                     <?php if (isset($_GET['message'])) { ?>
-                        <div class="alert alert-info" role="alert">
+                        <div class="alert alert-info mb-4" role="alert">
                             <?php if (isset($_GET['message'])) {
                                 echo $_GET['message'];
                             } ?>
                         </div>
                     <?php } ?>
-                    <div class="checkout__order">
-                        <h4 class="order__title">Account Info</h4>
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
-                                <img src="<?php echo 'img/profile/' . $_SESSION['member_photo']; ?>" alt="" class="rounded-circle img-responsive" />
-                            </div>
-                            <div class="col-sm-6 col-md-8">
-                                <h4><?php if (isset($_SESSION['member_name'])) {
-                                        echo $_SESSION['member_name'];
-                                    } ?></h4>
-                                <small><cite title="Address"><?php if (isset($_SESSION['member_address'])) {
-                                                                    echo $_SESSION['member_address'];
-                                                                } ?> <i class="fas fa-map-marker-alt"></i></cite></small>
-                                <p>
-                                    <i class="fa fa-envelope"></i> <?php if (isset($_SESSION['member_email'])) {
-                                                                        echo $_SESSION['member_email'];
-                                                                    } ?>
-                                    <br />
-                                    <i class="fa fa-phone"></i> <?php if (isset($_SESSION['member_phone'])) {
-                                                                    echo $_SESSION['member_phone'];
-                                                                } ?>
-                                </p>
-                            </div>
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="profile-img mr-4">
+                            <img src="<?php echo 'img/profile/' . $member['Poto_Member']; ?>" alt="" class="rounded-circle">
                         </div>
-
-                        <h4 class="order__title"></h4>
-                        <a href="#orders" class="btn btn-primary">YOUR RENT</a>
-                        <a href="account.php?logout=1" id="logout-btn" class="btn btn-danger">LOG OUT</a>
+                        <div class="profile-info">
+                            <h3 class="mb-2"><?= $member['Nama_member'] ?></h3>
+                            <p class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i><?= $member['Alamat'] ?></p>
+                            <p class="mb-2"><i class="fa fa-envelope mr-2"></i><?= $member['Email'] ?></p>
+                            <p class="mb-0"><i class="fa fa-phone mr-2"></i><?= $member['Nomor_Telepon'] ?></p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalEdit<?= $member['ID_Member'] ?>" class="btn btn-primary">
+                            <i class="fas fa-edit mr-2"></i>
+                            EDIT PROFILE
+                        </a>
+                        <a href="account.php?logout=1">
+                            <button id="logout-btn" class="btn btn-danger" name="logout" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>LOG OUT</button>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!-- Checkout Section End -->
+    <!-- Checkout Section End -->
+
+    <!-- Modal Edit Start -->
+    <div class="modal fade" id="modalEdit<?= $member['ID_Member'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabelEdit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-blackness">
+                <div class="modal-body text-dark">
+                    <div class="d-flex justify-content-between mb-4">
+                        <h2 class="modal-title" id="modalLabelEdit">Edit Profile</h2>
+                        <button type="button" class="btn btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="actionEdit.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="ID_Member" value="<?= $member['ID_Member'] ?>">
+                        <div class="mb-3">
+                            <label for="Nama_member" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="Nama_member" name="Nama_member" value="<?= htmlspecialchars($member['Nama_member']) ?>" onkeypress="return isLetter(event)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="Alamat" name="Alamat" value="<?= htmlspecialchars($member['Alamat']) ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="Email" name="Email" value="<?= htmlspecialchars($member['Email']) ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Nomor_Telepon" class="form-label">Nomor Telepon</label>
+                            <input type="text" class="form-control" id="Nomor_Telepon" name="Nomor_Telepon" value="<?= htmlspecialchars($member['Nomor_Telepon']) ?>" minlength="12" maxlength="13" pattern="\d{12,13}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password_member" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="Password_member" name="Password_member" value="<?= htmlspecialchars($member['Password_Member']) ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Foto Profile</label>
+                            <input class="form-control" type="file" id="Poto_Member" name="Poto_Member">
+                        </div>
+                        <div class="py-2 text-end">
+                            <input type="submit" class="btn btn-light" name="submit_edit" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<!-- Modal Edit End -->
 
 <!-- Order History Begin -->
 <section id="orders" class="shopping-cart spad">
@@ -203,7 +199,6 @@ include('layouts/header.php');
                                 <th>Start Date</th>
                                 <th>Return Date</th>
                                 <th>Denda</th>
-                                <th>Invoice</th>
                                 <th>Extend</th>
                             </tr>
                         </thead>
@@ -261,11 +256,6 @@ include('layouts/header.php');
                                             <h5><?php echo $penalty > 0 ? 'Rp' . number_format($penalty, 2, ',', '.') : 'No Penalty'; ?></h5>
                                         </div>
                                     </td>
-                                    <td class="product__cart__item">
-                                        <a href="struk.php">
-                                            <button class="btn btn-outline-info">Invoice</button>
-                                        </a>
-                                    </td>
                                     <td class="cart__price">
                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#extendModal" data-order-id="<?php echo $order['ID_Sewa']; ?>" data-return-date="<?php echo $order['Tanggal_Kembali']; ?>" data-book-id="<?php echo $order['ID_Buku']; ?>" data-penalty="<?php echo $penalty; ?>" data-late-days="<?php echo $late_days; ?>">
                                             Extend
@@ -293,7 +283,7 @@ include('layouts/header.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="payment.php?order_status=extend">
+            <form method="POST" action="extend-rental.php">
                 <div class="modal-body">
                     <input type="hidden" id="order_id" name="id_sewa">
                     <input type="hidden" id="book_id" name="book_id">
@@ -332,6 +322,8 @@ include('layouts/header.php');
 <!-- Bootstrap core JavaScript-->
 <script src="admin/vendor/jquery/jquery.min.js"></script>
 <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="admin/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="js/jquery-easing/jquery.easing.min.js"></script>
@@ -346,7 +338,6 @@ include('layouts/header.php');
         var returnDate = button.data('return-date');
         var bookId = button.data('book-id');
         var penalty = button.data('penalty');
-        var lateDays = button.data('late-days'); // Get late days
 
         var modal = $(this);
         modal.find('.modal-body #order_id').val(orderId);
@@ -370,27 +361,16 @@ include('layouts/header.php');
                 // Add event listener for date change
                 modal.find('.modal-body #new_return_date').on('change', function() {
                     var newReturnDate = new Date($(this).val());
+                    var today = new Date();
+                    today.setDate(today.getDate() + 1); // Add 1 day to today's date
                     var currentReturnDate = new Date(returnDate);
 
                     var additionalPrice = 0;
                     var totalPenalty = penalty;
 
-                    if (newReturnDate > currentReturnDate) {
+                    if (newReturnDate > today) {
                         var diffTime = Math.abs(newReturnDate - currentReturnDate);
                         var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                        // Check if the new return date is at least lateDays from the original return date
-                        if (diffDays < lateDays) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Invalid Extension Period',
-                                text: 'You must extend the rental period for at least ' + lateDays + ' days.',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                modal.find('.modal-body #new_return_date').val(''); // Reset the date input
-                            });
-                            return;
-                        }
 
                         additionalPrice = diffDays * rentalPricePerDay;
 
@@ -400,13 +380,21 @@ include('layouts/header.php');
                         modal.find('.modal-body #additional_price').val(additionalPrice);
                         modal.find('.modal-body #total_price').val(totalPrice);
                     } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid Extension Period',
+                            text: 'You must extend the rental period for at least 1 day from today.',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            modal.find('.modal-body #new_return_date').val(''); // Reset the date input
+                        });
                         modal.find('.modal-body #additional_price').val(0);
                         modal.find('.modal-body #total_price').val(totalPenalty);
                     }
                 });
 
-                // Trigger change event to calculate the initial price
-                modal.find('.modal-body #new_return_date').trigger('change');
+                // Do not trigger change event initially
+                // modal.find('.modal-body #new_return_date').trigger('change');
             },
             error: function() {
                 Swal.fire({
@@ -419,8 +407,6 @@ include('layouts/header.php');
         });
     });
 </script>
-
-
 
 
 
