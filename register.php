@@ -15,60 +15,103 @@ if (isset($_POST['register_btn'])) {
         $photo_temp = $_FILES['photo']['tmp_name']; // Foto sementara
         $photo_name = $_FILES['photo']['name']; // Nama foto asli
 
-        // Ambil ekstensi file
+        // Foto Profile
+        $photo = $_FILES['photo']['tmp_name'];
+        $photo_name = basename($_FILES['photo']['name']);
         $photo_extension = pathinfo($photo_name, PATHINFO_EXTENSION);
+        $photo_directory = __DIR__ . "/../img/profile/";
+        $photo_destination = $photo_directory . $photo_name;
 
-        // Ganti nama file dengan nama username (tanpa spasi dan karakter khusus) + ekstensi file
-        $new_photo_name = $username . '.' . $photo_extension;
+        // Ensure the directory exists
+        if (!is_dir($photo_directory)) {
+            if (!mkdir($photo_directory, 0755, true)) {
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Directory Error',
+                            text: 'Failed to create directory for profile photos.'
+                        });
+                    });
+                </script>";
+                exit;
+            }
+        }
 
-        // Tentukan path baru untuk menyimpan foto
-        $path = "img/profile/" . $new_photo_name;
+        // Jika nama file sudah ada, tambahkan angka untuk membuatnya unik
+        $i = 1;
+        while (file_exists($photo_destination)) {
+            $photo_name = pathinfo($_FILES['photo']['name'], PATHINFO_FILENAME) . "_$i." . $photo_extension;
+            $photo_destination = $photo_directory . $photo_name;
+            $i++;
+        }
 
-        if (move_uploaded_file($photo_temp, $path)) {
-            // Check if email already exists
-            $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ?";
+        if (move_uploaded_file($photo, $photo_destination)) {
+            // Cek apakah email atau nomor telepon sudah terdaftar sebelumnya
+            $query_check_user = "SELECT COUNT(*) FROM member WHERE Email = ? OR Nomor_Telepon = ?";
             $stmt_check_user = $conn->prepare($query_check_user);
-            $stmt_check_user->bind_param('s', $email);
+            $stmt_check_user->bind_param('ss', $email, $phone);
             $stmt_check_user->execute();
             $stmt_check_user->bind_result($num_rows);
             $stmt_check_user->fetch();
             $stmt_check_user->close();
 
+            // Jika ada email atau nomor telepon yang sama
             if ($num_rows !== 0) {
-                header('location: Register.php?error=User with this email already exists');
-                exit;
-            }
-
-            // Insert new user data into the database
-            $query_save_user = "INSERT INTO member (Nama_Member, Email, Password_Member, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt_save_user = $conn->prepare($query_save_user);
-            $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
-
-            if ($stmt_save_user->execute()) {
-                // Get the newly inserted member ID
-                $new_member_id = $stmt_save_user->insert_id;
-                
-                // Set session variables and redirect to login with success message
-                $_SESSION['member_email'] = $email;
-                $_SESSION['logged_in'] = true;
-                $_SESSION['member_id'] = $new_member_id;
-                $_SESSION['member_address'] = $address;
-                $_SESSION['member_phone'] = $phone;
-                $_SESSION['member_photo'] = $new_photo_name;
-                
-                header('location: login.php?register_success=You registered successfully!');
-                exit;
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'User already exists',
+                            text: 'A user with this email or phone number already exists.'
+                        });
+                    });
+                </script>";
             } else {
-                header('location: Register.php?error=Could not create an account at the moment');
-                exit;
+                // Simpan data user ke database
+                $query_save_user = "INSERT INTO member (Nama_Member, Email, Password, Alamat, Nomor_Telepon, Poto_Member) VALUES (?, ?, ?, ?, ?, ?)";
+                $stmt_save_user = $conn->prepare($query_save_user);
+                $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $photo_name);
+
+                if ($stmt_save_user->execute()) {
+                    $_SESSION['user_email'] = $email;
+                    $_SESSION['logged_in'] = true;
+                    header('location: login.php?register_success=You registered successfully!');
+                    exit;
+                } else {
+                    echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Registration Failed',
+                                text: 'Could not create an account at the moment. Please try again later.'
+                            });
+                        });
+                    </script>";
+                }
             }
         } else {
-            header('location: Register.php?error=Failed to upload photo');
-            exit;
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'File Upload Error',
+                        text: 'Could not upload profile picture. Please try again.'
+                    });
+                });
+            </script>";
         }
     } else {
-        header('location: Register.php?error=Please fill in all the fields');
-        exit;
+        // Jika ada data yang kosong, arahkan kembali ke halaman register dengan pesan galat
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Incomplete Form',
+                    text: 'Please fill in all the fields.'
+                });
+            });
+        </script>";
     }
 }
 ?>
@@ -94,40 +137,43 @@ if (isset($_POST['register_btn'])) {
     <link href="admin/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="admin/css/styleRegister.css" rel="stylesheet">
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
     <link rel="icon" href="img/icon/pitimoss_logo.png" type="image/png">
 
 </head>
 
 <body>
-<div class="row no-gutters">
+<div class="row no-gutters vh-100">
     <div class="col-md-6 no-gutters">
-        <div class="leftside"></div>
+        <div class="leftside h-100"></div>
     </div>
     <div class="col-md-6 no-gutters d-flex justify-content-center align-items-center">
-        <div class="form-outer">
-            <div class="rightside" style="margin-top: 200px;">
-                <div class="text-start mb-10">
-                    <p class="mb-4" style="text-align: center; font-size: 20px; font-weight: bold;">
+        <div class="form-outer" style="padding-top: 200px;"> <!-- Added padding-top to move the form down -->
+            <div class="rightside d-flex flex-column justify-content-center align-items-center w-100 h-100">
+                <div class="text-start mb-10 text-center">
+                    <p class="mb-4" style="font-size: 20px; font-weight: bold;">
                         PITIMOSS Smart Library
                         <br>
                         <span style="background: linear-gradient(to left, #F3860B 0%, #FFD80C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                             <span id="kt_landing_hero_text">Bukalah pikiranmu, lewat website kami</span>
                         </span>
                     </p>
-                    <p class="mb-4" style="font-size:12px; text-align: center; color: black;"><b>Isi form di bawah untuk mendaftar</b></p>
+                    <p class="mb-4" style="font-size:12px; color: black;"><b>Isi form di bawah untuk mendaftar</b></p>
                 </div>
                 <div class="container">
                     <form id="registerForm" method="POST" action="Register.php" enctype="multipart/form-data">
                         <div id="form0">
                             <!-- Form bagian pertama -->
                             <label for="username">Username</label>
-                            <input type="text" class="form-control form-control-user" name="username" placeholder="Enter Username">
+                            <input type="text" class="form-control form-control-user" name="username" placeholder="Enter Username" required>
                             
                             <label for="Email">Email</label>
-                            <input type="text" class="form-control form-control-user" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address">
+                            <input type="email" class="form-control form-control-user" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address" required>
                             
                             <label for="Password">Password</label>
-                            <input type="password" class="form-control form-control-user" name="password" placeholder="Enter your Password">
+                            <input type="password" class="form-control form-control-user" name="password" placeholder="Enter your Password" required minlength="8">
                             
                             <div class="btn-box d-flex justify-content-end">
                                 <button type="button" id="Next1">Next</button>
@@ -137,13 +183,13 @@ if (isset($_POST['register_btn'])) {
                         <div id="form1" style="display: none;">
                             <!-- Form bagian kedua -->
                             <label for="Alamat">Alamat</label>
-                            <input type="text" class="form-control form-control-user" name="address" placeholder="Enter Address">
+                            <input type="text" class="form-control form-control-user" name="address" placeholder="Enter Address" required>
                             
                             <label for="Phone Number">Phone Number</label>
-                            <input type="text" class="form-control form-control-user" name="phone" placeholder="Enter Phone Number">
+                            <input type="text" class="form-control form-control-user" name="phone" placeholder="Enter Phone Number" required>
                             
                             <label for="Photo">Foto Profile</label>
-                            <input type="file" class="form-control-file" name="photo">
+                            <input type="file" class="form-control-file" name="photo" required>
                             
                             <div class="btn-box d-flex justify-content-between">
                                 <button type="button" id="Previous1">Previous</button>
@@ -175,8 +221,32 @@ if (isset($_POST['register_btn'])) {
     var Previous1 = document.getElementById("Previous1");
 
     Next1.onclick = function() {
-        form0.style.display = "none";
-        form1.style.display = "block";
+        var username = document.getElementsByName("username")[0].value;
+        var email = document.getElementsByName("email")[0].value;
+        var password = document.getElementsByName("password")[0].value;
+
+        if (username === "" || email === "" || password === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please fill in all the fields.'
+            });
+        } else if (!email.endsWith('@gmail.com')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Email',
+                text: 'Please use an email address that ends with @gmail.com.'
+            });
+        } else if (password.length < 8) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Password must be at least 8 characters long.'
+            });
+        } else {
+            form0.style.display = "none";
+            form1.style.display = "block";
+        }
     }
 
     Previous1.onclick = function() {
