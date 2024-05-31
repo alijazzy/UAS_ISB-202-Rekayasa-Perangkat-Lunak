@@ -52,45 +52,40 @@ $Members = $stmt_member->get_result();
 
         <div class="card-body">
             <div class="container-fluid border-bottom">
-                <?php foreach ($Members as $member) { ?>
-                    <div class="container-fluid text-dark my-5 d-flex flex-row align-items-center">
-                        <div class="p-2 border-dark border border-2 rounded-circle">
-                            <img class="rounded-circle object-fit-cover" title="Image_Member" src="<?php echo '../img/profile/' . $member['Poto_Member']; ?>" alt="" width="130px" height="130px">
-                        </div>
-                        <div class="mx-4 my-0 h-4">
-                            <h5 class="my-0">
-                                <?php echo $member['Nama_member']; ?>
-                            </h5>
-                            <h6 class="my-0">
-                                <?php echo $member['Alamat']; ?>
-                            </h6>
-                            <h6 class="my-0">
-                                <?php echo $member['Email']; ?>
-                            </h6>
-                            <h6 class="my-0">
-                                <?php echo $member['Nomor_Telepon']; ?>
-                            </h6>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalEdit<?= $member['ID_Member'] ?>"><i class="fas fa-edit" style="color: #000;"></i></a>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalDelete<?= $member['ID_Member'] ?>"><i class="fas fa-trash-alt" style="color: #000;"></i></a>
+                <div class="row my-5">
+                    <?php foreach ($Members as $member) { ?>
+                        <div class="col-12 col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 bg-light shadow-sm">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <div class="profile-image mb-3">
+                                        <img class="rounded-circle object-fit-cover" title="Image_Member" src="<?php echo '../img/profile/' . $member['Poto_Member']; ?>" alt="" width="130px" height="130px">
+                                    </div>
+                                    <h5 class="card-title mb-1"><?php echo $member['Nama_member']; ?></h5>
+                                    <p class="card-text mb-2"><?php echo $member['Alamat']; ?></p>
+                                    <p class="card-text mb-2"><?php echo $member['Email']; ?></p>
+                                    <p class="card-text mb-3"><?php echo $member['Nomor_Telepon']; ?></p>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalDelete<?= $member['ID_Member'] ?>" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </a>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Modal Delete Start -->
-                        <div class="modal fade mt-5 pt-5" id="modalDelete<?= $member['ID_Member'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabelDelete" aria-hidden="true">
+                        <div class="modal fade" id="modalDelete<?= $member['ID_Member'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabelDelete" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content bg-blackness">
                                     <div class="modal-body text-dark text-center">
-                                        <div class="text-light text-end">
-                                            <a class="btn btn-close text-light" type="button" data-bs-dismiss="modal" aria-label="Close"></a>
+                                        <div class="text-end mb-3">
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="d-flex justify-content-center my-3">
-                                            <h1 class="exclamation"><i class="fas fa-exclamation"></i></h1>
+                                            <h1 class="exclamation text-danger"><i class="fas fa-exclamation"></i></h1>
                                         </div>
-                                        <div class="my-4">
-                                            <h4>Are you sure want to Delete this Member?</h4>
-                                            <h6 class="text-dark-emphasis"><?php echo $member['Nama_member'] ?></h6>
-                                        </div>
-                                        <div class="my-2">
-                                            <a class="btn btn-light" data-bs-dismiss="modal" aria-label="Close">Cancel</a>
+                                        <h4 class="mb-3">Are you sure you want to delete this Member?</h4>
+                                        <h6 class="text-dark-emphasis"><?php echo $member['Nama_member'] ?></h6>
+                                        <div class="mt-4">
+                                            <a class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</a>
                                             <a class="btn btn-danger" href="actionDelete.php?ID_Member=<?= $member['ID_Member'] ?>&Poto_Member=<?= $member['Poto_Member'] ?>">Delete</a>
                                         </div>
                                     </div>
@@ -98,53 +93,8 @@ $Members = $stmt_member->get_result();
                             </div>
                         </div>
                         <!-- Modal Delete End -->
-
-                        <!-- Modal Edit Start -->
-                        <div class="modal fade" id="modalEdit<?= $member['ID_Member'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabelEdit" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content bg-blackness ">
-                                    <div class="modal-body text-dark ">
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <h2 class="modal-title" id="modalLabelEdit">Edit Profile</h2>
-                                            <button type="button" class="btn btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <form action="actionEdit.php" method="POST" enctype="multipart/form-data">
-                                            <input type="hidden" name="ID_Member" value="<?= $member['ID_Member'] ?>">
-                                            <div class="mb-3">
-                                                <label for="Nama_member" class="form-label">Nama</label>
-                                                <input type="text" class="form-control" id="Nama_member" name="Nama_member" value="<?= $member['Nama_member'] ?>" onkeypress="return isLetter(event)" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="Alamat" class="form-label">Alamat</label>
-                                                <input type="text" class="form-control" id="Alamat" name="Alamat" value="<?= $member['Alamat'] ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="Email" class="form-label">Email address</label>
-                                                <input type="email" class="form-control" id="Email" name="Email" value="<?= $member['Email'] ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="Nomor_Telepon" class="form-label">Nomor Telepon</label>
-                                                <input type="text" class="form-control" id="Nomor_Telepon" name="Nomor_Telepon" value="<?= $member['Nomor_Telepon'] ?>" minlength="12" maxlength="13" pattern="\d{12,13}" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="Password_member" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="Password_member" name="Password_member" value="<?= $member['Password_Member'] ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="formFile" class="form-label">Foto Profile</label>
-                                                <input class="form-control" type="file" id="Poto_Member" name="Poto_Member">
-                                            </div>
-                                            <div class="py-2 text-end">
-                                                <input type="submit" class="btn btn-light" name="submit_edit" value="Submit">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal Edit End -->
-                    </div>
-                <?php } ?>
+                    <?php } ?>
+                </div>
             </div>
         </div>
     </div>

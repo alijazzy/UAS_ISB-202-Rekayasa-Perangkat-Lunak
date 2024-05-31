@@ -10,11 +10,9 @@ if (!isset($_SESSION['logged_in'])) {
 if (isset($_GET['logout'])) {
     if (isset($_SESSION['logged_in'])) {
         unset($_SESSION['logged_in']);
-        unset($_SESSION['member_id']);
         unset($_SESSION['member_email']);
         unset($_SESSION['member_name']);
         unset($_SESSION['member_photo']);
-        unset($_SESSION['cart']);
         header('location: index.php');
         exit;
     }
@@ -38,6 +36,14 @@ if (isset($_SESSION['total'])) {
     $total_bayar = $_SESSION['total'];
 }
 ?>
+<?php
+$query = "SELECT * FROM member WHERE ID_Member = ?";
+
+$stmt_member = $conn->prepare($query);
+$stmt_member->bind_param('i', $member_id);
+$stmt_member->execute();
+$Members = $stmt_member->get_result();
+?>
 
 <?php
 include('layouts/header.php');
@@ -59,18 +65,40 @@ include('layouts/header.php');
         </div>
     </ol>
 </nav>
-<!-- Breadcrumb Section End -->
+<!-- Breadcrumb Section End -->
 
 <!-- Checkout Section Begin -->
-<div class="container-sm mt-5 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="profile-box shadow-lg">
-                <?php if (isset($_GET['message'])) { ?>
-                    <div class="alert alert-info mb-4" role="alert">
-                        <?php if (isset($_GET['message'])) {
-                            echo $_GET['message'];
-                        } ?>
+<?php foreach ($Members as $member) { ?>
+    <div class="container-sm mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="profile-box shadow-lg">
+                    <?php if (isset($_GET['message'])) { ?>
+                        <div class="alert alert-info mb-4" role="alert">
+                            <?php if (isset($_GET['message'])) {
+                                echo $_GET['message'];
+                            } ?>
+                        </div>
+                    <?php } ?>
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="profile-img mr-4">
+                            <img src="<?php echo 'img/profile/' . $member['Poto_Member']; ?>" alt="" class="rounded-circle">
+                        </div>
+                        <div class="profile-info">
+                            <h3 class="mb-2"><?= $member['Nama_member'] ?></h3>
+                            <p class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i><?= $member['Alamat'] ?></p>
+                            <p class="mb-2"><i class="fa fa-envelope mr-2"></i><?= $member['Email'] ?></p>
+                            <p class="mb-0"><i class="fa fa-phone mr-2"></i><?= $member['Nomor_Telepon'] ?></p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalEdit<?= $member['ID_Member'] ?>" class="btn btn-primary">
+                            <i class="fas fa-edit mr-2"></i>
+                            EDIT PROFILE
+                        </a>
+                        <a href="account.php?logout=1">
+                            <button id="logout-btn" class="btn btn-danger" name="logout" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>LOG OUT</button>
+                        </a>
                     </div>
                 <?php } ?>
                 <div class="d-flex align-items-center mb-4">
@@ -104,8 +132,53 @@ include('layouts/header.php');
             </div>
         </div>
     </div>
-</div>
-<!-- Checkout Section End -->
+    <!-- Checkout Section End -->
+
+    <!-- Modal Edit Start -->
+    <div class="modal fade" id="modalEdit<?= $member['ID_Member'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabelEdit" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-blackness">
+                <div class="modal-body text-dark">
+                    <div class="d-flex justify-content-between mb-4">
+                        <h2 class="modal-title" id="modalLabelEdit">Edit Profile</h2>
+                        <button type="button" class="btn btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="actionEdit.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="ID_Member" value="<?= $member['ID_Member'] ?>">
+                        <div class="mb-3">
+                            <label for="Nama_member" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="Nama_member" name="Nama_member" value="<?= htmlspecialchars($member['Nama_member']) ?>" onkeypress="return isLetter(event)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Alamat" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="Alamat" name="Alamat" value="<?= htmlspecialchars($member['Alamat']) ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="Email" name="Email" value="<?= htmlspecialchars($member['Email']) ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Nomor_Telepon" class="form-label">Nomor Telepon</label>
+                            <input type="text" class="form-control" id="Nomor_Telepon" name="Nomor_Telepon" value="<?= htmlspecialchars($member['Nomor_Telepon']) ?>" minlength="12" maxlength="13" pattern="\d{12,13}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password_member" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="Password_member" name="Password_member" value="<?= htmlspecialchars($member['Password_Member']) ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Foto Profile</label>
+                            <input class="form-control" type="file" id="Poto_Member" name="Poto_Member">
+                        </div>
+                        <div class="py-2 text-end">
+                            <input type="submit" class="btn btn-light" name="submit_edit" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<!-- Modal Edit End -->
 
 <!-- Order History Begin -->
 <section id="orders" class="shopping-cart spad">
@@ -221,7 +294,7 @@ include('layouts/header.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="payment.php?order_status=extend">
+            <form method="POST" action="extend-rental.php">
                 <div class="modal-body">
                     <input type="hidden" id="order_id" name="id_sewa">
                     <input type="hidden" id="book_id" name="book_id">
@@ -260,6 +333,8 @@ include('layouts/header.php');
 <!-- Bootstrap core JavaScript-->
 <script src="admin/vendor/jquery/jquery.min.js"></script>
 <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="admin/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="js/jquery-easing/jquery.easing.min.js"></script>
@@ -343,7 +418,6 @@ include('layouts/header.php');
         });
     });
 </script>
-
 <?php
 include('layouts/footer.php');
 ?>
