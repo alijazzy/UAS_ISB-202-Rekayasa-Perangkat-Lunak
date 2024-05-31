@@ -67,7 +67,7 @@ include('layouts/header.php');
 </nav>
 <!-- Breadcrumb Section End -->
 
-<!-- Checkout Section Begin -->
+<!-- Profile Section Begin -->
 <?php foreach ($Members as $member) { ?>
     <div class="container-sm mt-5 mb-5">
         <div class="row justify-content-center">
@@ -78,6 +78,9 @@ include('layouts/header.php');
                             <?php if (isset($_GET['message'])) {
                                 echo $_GET['message'];
                             } ?>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                         </div>
                     <?php } ?>
                     <div class="d-flex align-items-center mb-4">
@@ -101,38 +104,11 @@ include('layouts/header.php');
                         </a>
                     </div>
                 <?php } ?>
-                <div class="d-flex align-items-center mb-4">
-                    <div class="profile-img mr-4">
-                        <img src="<?php echo 'img/profile/' . $_SESSION['member_photo']; ?>" alt="" class="rounded-circle">
-                    </div>
-                    <div class="profile-info">
-                        <h3 class="mb-2"><?php if (isset($_SESSION['member_name'])) {
-                                                echo $_SESSION['member_name'];
-                                            } ?></h3>
-                        <p class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i><?php if (isset($_SESSION['member_address'])) {
-                                                                                        echo $_SESSION['member_address'];
-                                                                                    } ?></p>
-                        <p class="mb-2"><i class="fa fa-envelope mr-2"></i><?php if (isset($_SESSION['member_email'])) {
-                                                                                echo $_SESSION['member_email'];
-                                                                            } ?></p>
-                        <p class="mb-0"><i class="fa fa-phone mr-2"></i><?php if (isset($_SESSION['member_phone'])) {
-                                                                            echo $_SESSION['member_phone'];
-                                                                        } ?></p>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <a href="#orders" class="btn btn-primary">
-                        <i class="fas fa-boxes mr-2"></i>
-                        YOUR RENT
-                    </a>
-                    <a href="account.php?logout=1">
-                        <button id="logout-btn" class="btn btn-danger" name="logout" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>LOG OUT</button>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
-    <!-- Checkout Section End -->
+    </div>
+    <!-- Profile Section End -->
 
     <!-- Modal Edit Start -->
     <div class="modal fade" id="modalEdit<?= $member['ID_Member'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabelEdit" aria-hidden="true">
@@ -177,7 +153,6 @@ include('layouts/header.php');
             </div>
         </div>
     </div>
-<?php } ?>
 <!-- Modal Edit End -->
 
 <!-- Order History Begin -->
@@ -326,6 +301,9 @@ include('layouts/header.php');
     </div>
 </div>
 <!-- Extend Modal End -->
+<?php
+include('layouts/footer.php');
+?>
 
 
 
@@ -418,6 +396,3 @@ include('layouts/header.php');
         });
     });
 </script>
-<?php
-include('layouts/footer.php');
-?>
