@@ -133,3 +133,20 @@
     clear: both;
   }
   
+  .btn {
+    background-color: #F3860B;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #e06a00;
+}

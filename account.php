@@ -18,29 +18,6 @@ if (isset($_GET['logout'])) {
     }
 }
 
-if (isset($_POST['change_password'])) {
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    $email = $_SESSION['member_email'];
-
-    if ($password !== $confirm_password) {
-        header('location: account.php?error=Password did not match');
-    } else if (strlen($password) < 6) {
-        header('location: account.php?error=Password must be at least 6 characters');
-    } else {
-        $query_change_password = "UPDATE users SET Password = ? WHERE Email = ?";
-
-        $stmt_change_password = $conn->prepare($query_change_password);
-        $stmt_change_password->bind_param('ss', md5($password), $email);
-
-        if ($stmt_change_password->execute()) {
-            header('location: account.php?success=Password has been updated successfully');
-        } else {
-            header('location: account.php?error=Could not update password');
-        }
-    }
-}
-
 // Get Orders by User Login
 if (isset($_SESSION['logged_in'])) {
     $member_id = $_SESSION['member_id'];
@@ -123,6 +100,34 @@ include('layouts/header.php');
                             <button id="logout-btn" class="btn btn-danger" name="logout" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>LOG OUT</button>
                         </a>
                     </div>
+                <?php } ?>
+                <div class="d-flex align-items-center mb-4">
+                    <div class="profile-img mr-4">
+                        <img src="<?php echo 'img/profile/' . $_SESSION['member_photo']; ?>" alt="" class="rounded-circle">
+                    </div>
+                    <div class="profile-info">
+                        <h3 class="mb-2"><?php if (isset($_SESSION['member_name'])) {
+                                                echo $_SESSION['member_name'];
+                                            } ?></h3>
+                        <p class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i><?php if (isset($_SESSION['member_address'])) {
+                                                                                        echo $_SESSION['member_address'];
+                                                                                    } ?></p>
+                        <p class="mb-2"><i class="fa fa-envelope mr-2"></i><?php if (isset($_SESSION['member_email'])) {
+                                                                                echo $_SESSION['member_email'];
+                                                                            } ?></p>
+                        <p class="mb-0"><i class="fa fa-phone mr-2"></i><?php if (isset($_SESSION['member_phone'])) {
+                                                                            echo $_SESSION['member_phone'];
+                                                                        } ?></p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="#orders" class="btn btn-primary">
+                        <i class="fas fa-boxes mr-2"></i>
+                        YOUR RENT
+                    </a>
+                    <a href="account.php?logout=1">
+                        <button id="logout-btn" class="btn btn-danger" name="logout" type="submit"><i class="fas fa-sign-out-alt mr-2"></i>LOG OUT</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -198,7 +203,8 @@ include('layouts/header.php');
                                 <th>Book ID</th>
                                 <th>Start Date</th>
                                 <th>Return Date</th>
-                                <th>Denda</th>
+                                <th>Penalty</th>
+                                <th>Invoice</th>
                                 <th>Extend</th>
                             </tr>
                         </thead>
@@ -255,6 +261,11 @@ include('layouts/header.php');
                                         <div class="product__cart__item__text">
                                             <h5><?php echo $penalty > 0 ? 'Rp' . number_format($penalty, 2, ',', '.') : 'No Penalty'; ?></h5>
                                         </div>
+                                    </td>
+                                    <td class="product__cart__item">
+                                        <a href="struk.php?id_sewa=<?php echo $order['ID_Sewa']; ?>">
+                                            <button class="btn btn-outline-info">Invoice</button>
+                                        </a>
                                     </td>
                                     <td class="cart__price">
                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#extendModal" data-order-id="<?php echo $order['ID_Sewa']; ?>" data-return-date="<?php echo $order['Tanggal_Kembali']; ?>" data-book-id="<?php echo $order['ID_Buku']; ?>" data-penalty="<?php echo $penalty; ?>" data-late-days="<?php echo $late_days; ?>">
@@ -407,9 +418,6 @@ include('layouts/header.php');
         });
     });
 </script>
-
-
-
 <?php
 include('layouts/footer.php');
 ?>

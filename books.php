@@ -113,6 +113,11 @@ include('layouts/header.php');
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
+    <?php if (empty($books)): ?>
+            <div class="col-10">
+                <p class="text-center">No results found for your search.</p>
+            </div>
+        <?php else: ?>
         <?php foreach ($books as $book) : ?>
             <div class="col mb-4">
                 <div class="card h-100 border-0 shadow book-card">
@@ -135,7 +140,7 @@ include('layouts/header.php');
                                 <?php if ($book['Status'] == 'Tersedia'): ?>
                                     <button type="submit" class="btn btn-outline btn-sm" name="sewa" style="background-color:#F3860B;color:white">Rent Now</button>
                                 <?php else: ?>
-                                    <button type="button" class="btn btn-outline-danger btn-sm">Unavailable</button>
+                                    <button type="button" class="btn btn-danger btn-sm">Unavailable</button>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <button type="button" class="btn btn-outline btn-sm" data-toggle="modal" data-target="#loginModal" style="background-color:#F3860B;color:white">Rent Now</button>
@@ -145,6 +150,7 @@ include('layouts/header.php');
                 </div>
             </div>
         <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
     <!-- Pagination Links -->

@@ -59,7 +59,6 @@ include('layouts/header.php');
                             <h6>Rp <?= number_format($novel["Harga_Buku"]); ?></h6>
                             <p class="card-text text-truncate"><?= $novel["Pengarang"]; ?></p>
                             <a href="<?php echo "book-details.php?id_buku=" . $novel['ID_Buku']; ?>" class="btn btn-primary btn-sm">Book Details</a>
-                            <a href="buy.php?id=<?= $novel["ID_Buku"]; ?>" class="btn btn-outline-info btn-sm">Rent Now</a>
                         </div>
                     </div>
                 </div>
@@ -82,7 +81,6 @@ include('layouts/header.php');
                             <h6>Rp <?= number_format($komik["Harga_Buku"]); ?></h6>
                             <p class="card-text text-truncate"><?= $komik["Pengarang"]; ?></p>
                             <a href="<?php echo "book-details.php?id_buku=" . $komik['ID_Buku']; ?>" class="btn btn-primary btn-sm">Book Details</a>
-                            <a href="buy.php?id=<?= $komik["ID_Buku"]; ?>" class="btn btn-outline-info btn-sm">Rent Now</a>
                         </div>
                     </div>
                 </div>

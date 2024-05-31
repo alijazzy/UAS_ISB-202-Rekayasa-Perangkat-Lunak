@@ -108,7 +108,7 @@ include('layouts/header.php');
                                             </div>
                                         </td>
                                         <td class="cart__price">
-                                            <span><?php echo $value['book_price']; ?></span>
+                                            <span><?php echo 'Rp. ' . number_format($value['book_price']); ?></span>
                                         </td>
                                         <form method="POST" action="shopping-cart.php">
                                             <td style="text-align: center; vertical-align: middle;">
