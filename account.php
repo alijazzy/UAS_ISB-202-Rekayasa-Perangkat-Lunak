@@ -270,7 +270,7 @@ include('layouts/header.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="extend-rental.php">
+            <form method="POST" action="payment.php?order_status=extend">
                 <div class="modal-body">
                     <input type="hidden" id="order_id" name="id_sewa">
                     <input type="hidden" id="book_id" name="book_id">
