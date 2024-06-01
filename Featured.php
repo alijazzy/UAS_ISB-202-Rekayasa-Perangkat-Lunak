@@ -1,14 +1,14 @@
 <?php
 include('server/connection.php');
 
-//Get Book by category novel
+// Get Book by category novel
 $query_novel = "SELECT * FROM sewa JOIN buku ON sewa.ID_Buku = buku.ID_Buku WHERE buku.Jenis_Buku = 'Novel'";
 
 $stmt_novel = $conn->prepare($query_novel);
 $stmt_novel->execute();
 $Novel = $stmt_novel->get_result();
 
-//Get Book by category Comic
+// Get Book by category Comic
 $query_komik = "SELECT * FROM sewa JOIN buku ON sewa.ID_Buku = buku.ID_Buku WHERE buku.Jenis_Buku = 'Komik'";
 
 $stmt_komik = $conn->prepare($query_komik);
@@ -46,6 +46,7 @@ include('layouts/header.php');
 <!-- Display Book Begin -->
 <div class="container mb-5">
     <!-- Featured Book Begin -->
+    <?php if ($Novel->num_rows > 0) : ?>
     <div class="grid gap-3 p-4">
         <h2>Recomended Books</h2>
         <div class="row row-cols-1 row-cols-md-4 g-4 p-4">
@@ -58,16 +59,23 @@ include('layouts/header.php');
                             <span class="badge bg-warning"><?= $novel["Kategori_Buku"]; ?></span>
                             <h6>Rp <?= number_format($novel["Harga_Buku"]); ?></h6>
                             <p class="card-text text-truncate"><?= $novel["Pengarang"]; ?></p>
-                            <a href="<?php echo "book-details.php?id_buku=" . $novel['ID_Buku']; ?>" class="btn btn-primary btn-sm">Book Details</a>
+                            <a href="<?php echo "book-details.php?id_buku=" . $novel['ID_Buku']; ?>" class="btn btn-outline-info btn-sm">Book Details</a>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
+    <?php else : ?>
+    <div class="grid gap-3 p-4">
+        <h2>Recomended Books</h2>
+        <p>No recommended books available at the moment.</p>
+    </div>
+    <?php endif; ?>
     <!-- Featured Book End-->
 
     <!-- Featured Komik Begin -->
+    <?php if ($Komik->num_rows > 0) : ?>
     <div class="grid gap-3 p-4">
         <h2>Recomended Comics</h2>
         <div class="row row-cols-1 row-cols-md-4 g-4 p-4">
@@ -80,14 +88,24 @@ include('layouts/header.php');
                             <span class="badge bg-warning"><?= $komik["Kategori_Buku"]; ?></span>
                             <h6>Rp <?= number_format($komik["Harga_Buku"]); ?></h6>
                             <p class="card-text text-truncate"><?= $komik["Pengarang"]; ?></p>
-                            <a href="<?php echo "book-details.php?id_buku=" . $komik['ID_Buku']; ?>" class="btn btn-primary btn-sm">Book Details</a>
+                            <a href="<?php echo "book-details.php?id_buku=" . $komik['ID_Buku']; ?>" class="btn btn-outline-info btn-sm">Book Details</a>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
+    <?php else : ?>
+    <div class="grid gap-3 p-4">
+        <h2>Recomended Comics</h2>
+        <p>No recommended comics available at the moment.</p>
+    </div>
+    <?php endif; ?>
     <!-- Featured Komik End-->
 
 </div>
 <!-- Display Book End -->
+
+<?php
+include('layouts/footer.php');
+?>
