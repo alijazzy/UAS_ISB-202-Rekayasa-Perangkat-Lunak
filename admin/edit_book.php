@@ -153,7 +153,7 @@ if (isset($_POST['modify_btn'])) {
                             </div>
                         </div>
                         <div class="m-t-20 text-right">
-                            <a href="products.php" class="btn btn-danger">Cancel <i class="fas fa-undo"></i></a>
+                            <a href="books.php" class="btn btn-danger">Cancel <i class="fas fa-undo"></i></a>
                             <button type="submit" class="btn btn-primary submit-btn" name="modify_btn">Modify <i class="fas fa-save"></i></button>
                         </div>
                     </form>
