@@ -2,6 +2,11 @@
 session_start();
 include('server/connection.php');
 
+if (isset($_SESSION['logged_in'])) {
+    header('location: account.php');
+    exit;
+}
+
 if (isset($_POST['register_btn'])) {
     // Ensure all required fields are filled
     if (isset($_POST['username'], $_POST['email'], $_POST['password'], $_POST['address'], $_POST['phone'])) {
@@ -52,6 +57,8 @@ if (isset($_POST['register_btn'])) {
                 $stmt_save_user->bind_param('ssssss', $username, $email, $password, $address, $phone, $new_photo_name);
 
                 if ($stmt_save_user->execute()) {
+                    $new_member_id = $stmt_save_user->insert_id;
+                    
                     $_SESSION['member_email'] = $email;
                     $_SESSION['logged_in'] = true;
                     $_SESSION['member_id'] = $new_member_id;

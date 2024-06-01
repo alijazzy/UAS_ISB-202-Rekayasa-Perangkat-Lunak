@@ -37,6 +37,7 @@ if (isset($_SESSION['total'])) {
 }
 ?>
 <?php
+$member_id = $_SESSION['member_id'];
 $query = "SELECT * FROM member WHERE ID_Member = ?";
 
 $stmt_member = $conn->prepare($query);

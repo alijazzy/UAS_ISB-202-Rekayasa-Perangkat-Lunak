@@ -53,21 +53,21 @@
     <div class="row">
         <div class="facilities-col">
             <img src="img/about/ruang_baca.png">
-            <h3>Ruang Baca</h3>
+            <h3>Reading Corner</h3>
             <p class="about_story">Designed for maximum comfort, our Reading Room is an oasis for book lovers. 
                 Enjoy the tranquil and conducive atmosphere, perfect for immersing yourself in the pages of a book or spending time with your favorite magazines. 
                 Comfortable seating and proper lighting enhance your reading experience.</p>
         </div>
         <div class="facilities-col">
             <img src="img/about/ruang_pajang.jpg">
-            <h3>Ruang Pajang</h3>
+            <h3>Display Area</h3>
             <p class="about_story">Explore the world through our extensive book collection. 
                 Our Display Area showcases a wide range of titles and genres for you to choose from. 
                 From captivating fiction to educational non-fiction, each book becomes a new window to knowledge and inspiration.</p>
         </div>
         <div class="facilities-col">
             <img src="img/about/sewa_buku.jpeg">
-            <h3>Penyewaan Buku</h3>
+            <h3>Rental Service</h3>
             <p class="about_story">Experience the freedom to bring home inspiration. With our Book Rental service, you can enjoy selected books without having to purchase them. 
                 Choose, borrow, and read at home at a very affordable cost. The easy rental process and continuously updated collection make every visit refreshing.</p>
         </div>
