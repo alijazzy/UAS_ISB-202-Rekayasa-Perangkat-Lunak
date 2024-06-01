@@ -101,7 +101,7 @@ $books = $stmt_products->get_result();
                             <th>Book Title</th>
                             <th>Author</th>
                             <th>Publisher</th>
-                            <th>Category</th>
+                            <th>Status</th>
                             <th>Type</th>
                             <th>Year Released</th>
                             <th>Rent Price</th>
@@ -116,7 +116,7 @@ $books = $stmt_products->get_result();
                                 <td><?php echo $buku['Judul_Buku']; ?></td>
                                 <td><?php echo $buku['Pengarang']; ?></td>
                                 <td><?php echo $buku['Penerbit']; ?></td>
-                                <td><?php echo $buku['Kategori_Buku']; ?></td>
+                                <td><?php echo $buku['Status']; ?></td>
                                 <td><?php echo $buku['Jenis_Buku']; ?></td>
                                 <td><?php echo $buku['Tahun_Terbit']; ?></td>
                                 <td><?php echo $buku['Harga_Buku']; ?></td>

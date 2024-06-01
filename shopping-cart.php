@@ -46,12 +46,26 @@ if (isset($_POST['sewa'])) {
 
         $_SESSION['cart'][$book_id] = $product_array;
     }
-
 } else if (isset($_POST['remove_product'])) {
     $book_id = $_POST['book_id'];
     unset($_SESSION['cart'][$book_id]);
-} 
+}
 
+// Checkout validation
+if (isset($_POST['checkout'])) {
+    if (empty($_SESSION['cart'])) {
+        echo '<script>alert("Please add at least one book to the cart before checking out."); window.location.href = "shopping-cart.php";</script>';
+        exit();
+    }
+    if (empty($_POST['return_date'])) {
+        echo '<script>alert("Please select a return date before checking out."); window.location.href = "shopping-cart.php";</script>';
+        exit();
+    }
+
+    // Proceed with order placement
+    header('Location: server/place_order.php');
+    exit();
+}
 
 include('layouts/header.php');
 ?>
@@ -179,9 +193,7 @@ include('layouts/header.php');
                         <form id="checkoutForm" method="POST" action="server/place_order.php">
                             <input type="hidden" name="return_date" id="hidden_return_date">
                             <input type="hidden" name="total_amount" id="hidden_total_amount">
-                            <button type="submit" class="btn btn-lg btn-block" style="background-color:#F3860B;color:white" name="checkout">
-                                Checkout
-                            </button>
+                            <button type="submit" name="checkout" class="btn btn-lg btn-block" style="background-color: #F3860B; color:white">Checkout</button>
                         </form>
                     </div>
                 </div>
@@ -201,38 +213,74 @@ include('layouts/header.php');
 <script src="admin/js/sb-admin-2.min.js"></script>
 
 <script>
-    document.getElementById('new_return_date').addEventListener('change', function() {
-        const returnDate = new Date(this.value);
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set minimum date for the return date input
+        const new_return_date = document.getElementById('new_return_date');
         const today = new Date();
-        const diffTime = returnDate - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        today.setDate(today.getDate() + 1); // Add 1 day
+        const minDate = today.toISOString().split('T')[0];
+        new_return_date.setAttribute('min', minDate);
 
-        if (diffDays > 0) {
-            let totalAmount = 0;
-            const bookPrices = [];
-            <?php if (isset($_SESSION['cart'])) { ?>
-                <?php foreach ($_SESSION['cart'] as $key => $value) { ?>
-                    bookPrices.push(<?php echo $value['book_price']; ?>);
+        // Check if cart is empty and disable checkout button if it is
+        checkCartEmpty();
+
+        document.getElementById('new_return_date').addEventListener('change', function() {
+            const returnDate = new Date(this.value);
+            const today = new Date();
+            const diffTime = returnDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays > 0) {
+                let totalAmount = 0;
+                const bookPrices = [];
+                <?php if (isset($_SESSION['cart'])) { ?>
+                    <?php foreach ($_SESSION['cart'] as $key => $value) { ?>
+                        bookPrices.push(<?php echo $value['book_price']; ?>);
+                    <?php } ?>
                 <?php } ?>
-            <?php } ?>
 
-            bookPrices.forEach(price => {
-                totalAmount += price * diffDays;
-            });
+                bookPrices.forEach(price => {
+                    totalAmount += price * diffDays;
+                });
 
-            document.getElementById('return_date').innerText = this.value;
-            document.getElementById('total_days').innerText = diffDays + ' days';
-            document.getElementById('total_amount').innerText = 'Rp. ' + totalAmount.toLocaleString();
-            document.getElementById('hidden_return_date').value = this.value;
-            document.getElementById('hidden_total_amount').value = totalAmount;
-        } else {
-            document.getElementById('return_date').innerText = '';
-            document.getElementById('total_days').innerText = '';
-            document.getElementById('total_amount').innerText = '';
-            document.getElementById('hidden_return_date').value = '';
-            document.getElementById('hidden_total_amount').value = '';
-        }
+                document.getElementById('return_date').innerText = this.value;
+                document.getElementById('total_days').innerText = diffDays + ' days';
+                document.getElementById('total_amount').innerText = 'Rp. ' + totalAmount.toLocaleString();
+                document.getElementById('hidden_return_date').value = this.value;
+                document.getElementById('hidden_total_amount').value = totalAmount;
+            } else {
+                document.getElementById('return_date').innerText = '';
+                document.getElementById('total_days').innerText = '';
+                document.getElementById('total_amount').innerText = '';
+                document.getElementById('hidden_return_date').value = '';
+                document.getElementById('hidden_total_amount').value = '';
+            }
+        });
+
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            const returnDate = document.getElementById('hidden_return_date').value;
+            const totalAmount = document.getElementById('hidden_total_amount').value;
+
+            if (!returnDate) {
+                event.preventDefault();
+                alert("Please select a return date.");
+            } else if (!totalAmount) {
+                event.preventDefault();
+                alert("Please add at least one book to the cart.");
+            }
+        });
     });
+
+    function checkCartEmpty() {
+        const checkoutButton = document.querySelector('#checkoutForm button[type="submit"]');
+        const cartItems = document.querySelectorAll('.shopping__cart__table tbody tr');
+
+        if (cartItems.length === 0) {
+            checkoutButton.disabled = true;
+        } else {
+            checkoutButton.disabled = false;
+        }
+    }
 </script>
 
 <?php

@@ -20,11 +20,11 @@ if (isset($_GET['book_id']) && !empty($_GET['book_id'])) {
     if ($result->num_rows > 0) {
         $book = $result->fetch_assoc();
     } else {
-        header('location: products.php?error_message=Book not found');
+        header('location: books.php?error_message=Book not found');
         exit;
     }
 } else {
-    header('location: products.php?error_message=Invalid request');
+    header('location: books.php?error_message=Invalid request');
     exit;
 }
 
@@ -171,17 +171,17 @@ if (isset($_POST['modify_btn'])) {
 
 <!-- Script to update the custom file input label -->
 <script>
-    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
         var fileName = document.getElementById("addImage").files[0].name;
         var nextSibling = document.getElementById("addImageLabel");
         nextSibling.innerText = fileName;
     });
 
     <?php if (isset($error_message)) { ?>
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: '<?php echo $error_message; ?>',
-    });
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '<?php echo $error_message; ?>',
+        });
     <?php } ?>
 </script>

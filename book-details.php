@@ -87,6 +87,7 @@
                             <input type="hidden" name="book_price" value="<?= $harga; ?>">
                             <input type="hidden" name="book_image" value="<?= $sampul; ?>">
                             <input type="hidden" name="book_type" value="<?= $jenis; ?>">
+                            <input type="hidden" name="book_genre" value="<?= $genre; ?>">
                             <input type="hidden" name="product_quantity" value="1">
                             <button type="submit" class="btn-add-to-cart" name="sewa"><i class="fa-solid fa-cart-shopping"></i>Add to cart</button>
                         </form>

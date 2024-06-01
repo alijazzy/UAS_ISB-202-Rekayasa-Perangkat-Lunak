@@ -18,6 +18,7 @@ if (isset($_POST['create_btn'])) {
     $tahun_terbit = $_POST['tahun_terbit'];
     $harga_buku = $_POST['harga_buku'];
     $status = $_POST['status'];
+    $deskripsi = $_POST['deskripsi'];
 
     // Cek apakah harga buku negatif atau bukan angka
     if (!is_numeric($harga_buku)) {
@@ -43,12 +44,12 @@ if (isset($_POST['create_btn'])) {
             move_uploaded_file($sampul_buku, '../img/product/' . $image_name);
 
             $query_insert_book = "INSERT INTO buku (ID_Buku, Judul_Buku, Pengarang, Penerbit, Kategori_Buku, 
-                Jenis_Buku, Tahun_Terbit, Sampul_Buku, Harga_Buku, Status) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                Jenis_Buku, Tahun_Terbit, Sampul_Buku, Harga_Buku, Status, Deskripsi) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt_insert_book = $conn->prepare($query_insert_book);
             $stmt_insert_book->bind_param(
-                'ssssssssss',
+                'sssssssssss',
                 $ID_buku,
                 $judul_buku,
                 $pengarang,
@@ -58,12 +59,13 @@ if (isset($_POST['create_btn'])) {
                 $tahun_terbit,
                 $image_name,
                 $harga_buku,
-                $status
+                $status,
+                $deskripsi
             );
 
             if ($stmt_insert_book->execute()) {
                 $_SESSION['success_create_message'] = "Book Has Created";
-                header('location: create_book.php');
+                header('location: books.php');
                 exit;
             } else {
                 $error_message = "Could not create book!";
@@ -100,8 +102,8 @@ if (isset($_POST['create_btn'])) {
                     <?php } ?>
                     <?php if (isset($_SESSION['success_create_message'])) { ?>
                         <div class="alert alert-success" role="alert">
-                            <?php 
-                            echo $_SESSION['success_create_message']; 
+                            <?php
+                            echo $_SESSION['success_create_message'];
                             unset($_SESSION['success_create_message']); // Hapus pesan setelah ditampilkan
                             ?>
                         </div>
@@ -164,6 +166,10 @@ if (isset($_POST['create_btn'])) {
                                         <option value="Tidak Tersedia">Tidak Tersedia</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label>Deskripsi</label>
+                                    <textarea class="form-control" name="deskripsi" rows="5" required></textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="m-t-20 text-right">
@@ -186,17 +192,17 @@ if (isset($_POST['create_btn'])) {
 
 <!-- Script to update the custom file input label -->
 <script>
-    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
         var fileName = document.getElementById("addImage").files[0].name;
         var nextSibling = e.target.nextElementSibling;
         nextSibling.innerText = fileName;
     });
 
     <?php if (isset($error_message)) { ?>
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: '<?php echo $error_message; ?>',
-    });
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '<?php echo $error_message; ?>',
+        });
     <?php } ?>
 </script>
